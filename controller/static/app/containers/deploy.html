@@ -33,10 +33,13 @@
                                         </div>
                                     </label>
                                     <div class="ui corner labeled input">
-                                        <input name="image" class="input" type="text" ng-model="vm.request.Image" placeholder="Image"></input>
+                                        <input name="image" class="input" type="text" ng-click="vm.getImages()" ng-model="vm.request.Image" placeholder="Image"></input>
                                         <div class="ui corner label">
                                             <i class="asterisk icon"></i>
                                         </div>
+                                    </div>
+                                    <div class="menu" ng-show="vm.imagesShow == 1">
+                                        <div class="item ui label" style="margin:2px;cursor:pointer;" ng-repeat="i in vm.images" ng-click="vm.selectImage(i.RepoTags[0])">{{ i.RepoTags[0] }}</div>
                                     </div>
                                 </div>
 

@@ -54,6 +54,8 @@
 
         vm.Dns = [];//for dns array
         vm.containerDns = "";//for first input
+
+        vm.images = [];
         
         vm.deploying = false;
         vm.containerName = "";
@@ -90,6 +92,40 @@
         vm.removePort = removePort;
         vm.pushDns = pushDns;
         vm.removeDns = removeDns;
+        vm.getImages = getImages;
+        vm.selectImage = selectImage;
+
+        /*
+        function getImagesList() {
+            ImagesService.list()
+                .then(function(data) {
+                    vm.images = data;
+                    console.log("get images list" + data);
+                }, function(data) {
+                    vm.error = data;
+                });
+                vm.error = "";
+        }
+        */
+        function selectImage(i) {
+            console.log("select image" + i);
+            vm.request.Image = i;
+            vm.imagesShow = 0;
+        }
+
+        function getImages() {
+            console.log("get images");
+            $http
+                .get('/images/json')
+                .success(function(data, status, headers, config) {
+                    console.log(data[0]);
+                    console.log(data[0].RepoTags[0]);
+                    vm.images = data;
+                    vm.imagesShow = 1;
+                })
+                .error(function(data, status, headers, config) {
+                });
+        }
 
         function pushConstraint() {
             var constraint = {'ConstraintName': vm.constraintName, 'ConstraintValue': vm.constraintValue, 'ConstraintRule': vm.constraintRule};
@@ -287,6 +323,7 @@
                     vm.deploying = false;
                 });
         }
+
 
     }
 })();
