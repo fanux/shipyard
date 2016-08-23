@@ -95,18 +95,7 @@
         vm.getImages = getImages;
         vm.selectImage = selectImage;
 
-        /*
-        function getImagesList() {
-            ImagesService.list()
-                .then(function(data) {
-                    vm.images = data;
-                    console.log("get images list" + data);
-                }, function(data) {
-                    vm.error = data;
-                });
-                vm.error = "";
-        }
-        */
+
         function selectImage(i) {
             console.log("select image" + i);
             vm.request.Image = i;
@@ -118,7 +107,6 @@
             $http
                 .get('/images/json')
                 .success(function(data, status, headers, config) {
-                    console.log(data[0]);
                     console.log(data[0].RepoTags[0]);
                     vm.images = data;
                     vm.imagesShow = 1;
