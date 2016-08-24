@@ -1,0 +1,47 @@
+title = "shipyard plugin api define"
+
+[plugins]
+url = "/plugins"
+illustrate = "list all plugins, regist new plugin"
+
+    [plugins.get]
+        [plugins.get.request]
+        headers = ["x-plugin-name:plugin-name"]
+        param = "offset=0&limit=20"
+        body = ""
+        [plugins.get.response]
+        headers = []
+        body = "
+            {
+               "total":3,
+               "plugins":
+               [
+                    {
+                        "name":"xx-plugin",
+                        "kind":"xx-kind",
+                        "status":"xx-status",
+                        "discribe":"this is a plugin",
+                        "spec":{}
+                    }
+               ]  
+            }
+               "
+    [plugins.post]
+        [plugins.post.request]
+        [plugins.post.response]
+
+[plugin]
+url = "/plugins/{plugin_name}"
+illustrate = "get a plugin detail, delete or update plugin"
+
+    [plugin.get]
+    [plugin.delete]
+    [pulugin.put]
+
+[scope]
+url = "/plugins/{plugin_name}/scope"
+illustrate = "add get and update a plugin scope"
+    
+    [scope.get]
+    [scope.post]
+    [scope.put]
