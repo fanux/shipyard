@@ -24,6 +24,7 @@ curl -s https://shipyard-project.com/deploy | bash -s -- -h
 
 # Documentation
 Full docs are available at http://shipyard-project.com
+Source code analyse gitbook [](https://fanux.gitbooks.io/docker/content/swarm-uiyuan_ma_fen_xi.html)
 
 # Components
 There are three components to Shipyard:
