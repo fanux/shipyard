@@ -1,5 +1,6 @@
 给插件暴露的接口很简单：
 POST /plugin/scale
+
 BODY:
 ```json
 [
