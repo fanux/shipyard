@@ -196,7 +196,8 @@ class PluginTest(unittest.TestCase):
         plugin_name = "time-plugin"
 
         self.document = [
-            {         # 0点的时候启动20个ats 10个hadoop，ats通过容器启动，hadoop通过镜像创建新容器
+            {    # 0点的时候启动20个ats 10个hadoop，ats通过容器启动，hadoop通过镜像创建新容器
+                 # 配置文件为了尽可能简单，暂时可先不支持通过镜像创建，后面可融合Compose
                 "time":{
                     "year":None,
                     "month":None,
