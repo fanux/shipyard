@@ -1,5 +1,18 @@
 给插件暴露的接口很简单：
-POST /plugin/scale?app={app-name}&num={scale-number}
+POST /plugin/scale
+BODY:
+```json
+[
+    {
+        "app":"ats",
+        "num":20,
+    },
+    {
+        "app":"hadoop",
+        "num":10
+    }
+]
+```
 
 当然这不意味着插件只能做这个操作，不排除插件有其它很复杂的操作，针对那些操作插件也可以调用
 controller的api, 如通过镜像启动容器，指定特定参数和运行的节点等。从插件的目的是弹性调度这个
@@ -12,3 +25,8 @@ controller操作：
                                          |
                                           ->少了,伸
 ```
+
+这里需要注意的是很多app是独占资源运行的，这意味着"伸"操作很有可能会失败. 所以scale接口传一个列表
+过来，这样就可以先满足"缩"等资源释放出来了再"伸".
+
+早期的设计是 POST /plugin/scale?app=ats&num=20 不支持多个app的话controller就不方便先释放资源
