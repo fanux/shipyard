@@ -23,6 +23,12 @@ import (
 var (
 	Host string
 	Port string
+
+	DBHost   string
+	DBPort   string
+	DBUser   string
+	DBName   string
+	DBPasswd string
 )
 
 // serveCmd represents the serve command
@@ -32,6 +38,10 @@ var serveCmd = &cobra.Command{
 	Long:  `start the manager server`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// TODO: Work your own magic here
+		fmt.Printf("database info host=%s port=%s user=%s name=%s passwd=%s\n",
+			DBHost, DBPort, DBUser, DBName, DBPasswd)
+		initDB(DBHost, DBPort, DBUser, DBName, DBPasswd)
+
 		fmt.Println("serve called", Host, Port)
 		runServer(Host, Port)
 	},
@@ -52,4 +62,10 @@ func init() {
 
 	serveCmd.Flags().StringVarP(&Host, "host", "H", "localhost", "the ip address of manager server")
 	serveCmd.Flags().StringVarP(&Port, "port", "p", ":8081", "the port of manager server")
+
+	serveCmd.Flags().StringVarP(&DBHost, "db-host", "d", "localhost", "the address of database server")
+	serveCmd.Flags().StringVarP(&DBPort, "db-port", "P", "5432", "the port of database server, default pgsql port is 5432")
+	serveCmd.Flags().StringVarP(&DBUser, "db-user", "u", "shipyard", "the user of database server")
+	serveCmd.Flags().StringVarP(&DBName, "db-name", "n", "shipyard", "the database name of database server")
+	serveCmd.Flags().StringVarP(&DBPasswd, "db-passwd", "w", "111111", "the database passwd")
 }
