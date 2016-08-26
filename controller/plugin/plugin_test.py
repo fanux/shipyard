@@ -54,7 +54,6 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "Total":25,
             "Plugins":[
                 {
                     "Name":"time-plugin",
@@ -190,21 +189,15 @@ class PluginTest(unittest.TestCase):
         xx_document的格式不定，所有惩罚列表都有一个 name 和 value
 
         同一个插件的策略文档格式相同，一个插件支持多个策略，仅是参数不同。
+        Second Minute Hour Day Month Dayofweek 
+          *      *     *    *   *      *
+        时间配置遵循linux crontab
         """
         plugin_name = "time-plugin"
 
         self.document = [
             {    # 0点的时候启动20个ats 10个hadoop
-                "Time":{
-                    "Year":None,
-                    "Month":None,
-                    "Day":None,
-                    "Week":None,
-                    "DayOfWeek":None,
-                    "Hour":0,
-                    "Minute":None,
-                    "Second":None
-                },
+                "Cron":"* * 0 * * *",
                 "Apps":[
                     {
                         "Ppp":"ats",
@@ -217,16 +210,7 @@ class PluginTest(unittest.TestCase):
                 ]
             },
             {
-                 "Time":{
-                    "Year":None,
-                    "Month":None,
-                    "Day":None,
-                    "Week":None,
-                    "DayOfWeek":None,
-                    "Hour":1,
-                    "Minute":None,
-                    "Second":None
-                },
+                "Cron":"* * 1 * * *",
                 "Apps":[
                     {
                         "App":"ats",

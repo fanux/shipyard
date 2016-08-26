@@ -34,6 +34,11 @@ type PluginResource struct {
 	db *gorm.DB
 }
 
+type ScaleApp struct {
+	App string
+	Num int
+}
+
 func (p PluginResource) Register(container *restful.Container) {
 	ws := new(restful.WebService)
 
@@ -107,6 +112,11 @@ func (p PluginResource) Register(container *restful.Container) {
 		Operation("deletePluginStrategy").
 		Param(ws.PathParameter("pluginName", "name of plugin").DataType("string")).
 		Param(ws.PathParameter("strategyName", "name of plugin strategy").DataType("string")))
+
+	ws.Route(ws.POST("/scale").To(p.scaleApp).
+		Doc("scale app").
+		Operation("scaleApp").
+		Reads([]ScaleApp{}))
 
 	container.Add(ws)
 }
@@ -287,6 +297,11 @@ func (this PluginResource) deletePluginStrategy(request *restful.Request,
 	this.db.Where("name = ?", strategyName).Delete(Strategy{})
 
 	response.WriteHeaderAndEntity(http.StatusOK, PluginError{"0", "delete ok"})
+}
+
+func (this PluginResource) scaleApp(request *restful.Request,
+	response *restful.Response) {
+	//TODO
 }
 
 func runServer(host string, port string) {

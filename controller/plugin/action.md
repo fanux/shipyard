@@ -1,5 +1,5 @@
 给插件暴露的接口很简单：
-POST /plugin/scale
+POST /plugins/scale
 
 BODY:
 ```json
@@ -30,7 +30,7 @@ controller操作：
 这里需要注意的是很多app是独占资源运行的，这意味着"伸"操作很有可能会失败. 所以scale接口传一个列表
 过来，这样就可以先满足"缩"等资源释放出来了再"伸".
 
-早期的设计是 POST /plugin/scale?app=ats&num=20 不支持多个app的话controller就不方便先释放资源
+早期的设计是 POST /plugins/scale?app=ats&num=20 不支持多个app的话controller就不方便先释放资源
 
 ## 职责
 ```
