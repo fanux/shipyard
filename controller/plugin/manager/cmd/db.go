@@ -8,14 +8,15 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-func initDB(host, port, user, dbname, passwd string) {
-	db, err := gorm.Open("postgres",
-		fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
-			host, port, user, dbname, passwd))
+func initDB(host, port, user, dbname, passwd string) *gorm.DB {
+	s := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
+		host, port, user, dbname, passwd)
+	log.Print("db info %s", s)
+	db, err := gorm.Open("postgres", s)
 
 	if err != nil {
 		log.Print("error init db", err)
-		return
+		return nil
 	}
 
 	if !db.HasTable(&Plugin{}) {
@@ -25,5 +26,13 @@ func initDB(host, port, user, dbname, passwd string) {
 		log.Print("plugins table already exist")
 	}
 
-	defer db.Close()
+	/*
+		p := Plugin{Name: "pipeline", Kind: "nil", Status: "enable", Description: "nil", SpecJsonStr: "nil", Manual: "nil"}
+
+		db.NewRecord(p)
+		db.Create(&p)
+	*/
+
+	return db
+	//defer db.Close()
 }

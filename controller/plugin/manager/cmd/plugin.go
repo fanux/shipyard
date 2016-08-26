@@ -1,12 +1,17 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/emicklei/go-restful"
+	"github.com/jinzhu/gorm"
 )
+
+type ErrorPluginAlreadyExist struct {
+	Code string
+	Msg  string
+}
 
 type Plugin struct {
 	Name        string
@@ -18,7 +23,7 @@ type Plugin struct {
 }
 
 type PluginResource struct {
-	//TODO a db resource
+	db *gorm.DB
 }
 
 func (p PluginResource) Register(container *restful.Container) {
@@ -40,6 +45,8 @@ func (p PluginResource) Register(container *restful.Container) {
 
 func (this PluginResource) createPlugin(request *restful.Request, response *restful.Response) {
 	p := new(Plugin)
+	res := Plugin{Name: ""}
+
 	err := request.ReadEntity(p)
 
 	if err != nil {
@@ -48,7 +55,16 @@ func (this PluginResource) createPlugin(request *restful.Request, response *rest
 		return
 	}
 
-	fmt.Println(p.Name)
+	//query result will write to res, if already exist res.Name will change
+	//then quit the insert action
+	if this.db.Where("name = ?", p.Name).First(&res); res.Name == "" {
+		this.db.NewRecord(p)
+		this.db.Create(&p)
+	} else {
+		log.Printf("plugin %s already exist", p.Name)
+		response.WriteHeaderAndEntity(http.StatusBadRequest, ErrorPluginAlreadyExist{"400", "already exit"})
+		return
+	}
 
 	response.WriteHeaderAndEntity(http.StatusCreated, p)
 }
@@ -56,8 +72,10 @@ func (this PluginResource) createPlugin(request *restful.Request, response *rest
 func runServer(host string, port string) {
 	wsContainer := restful.NewContainer()
 
-	//TODO
-	p := PluginResource{}
+	db := initDB(DBHost, DBPort, DBUser, DBName, DBPasswd)
+	defer db.Close()
+
+	p := PluginResource{db}
 	p.Register(wsContainer)
 
 	log.Printf("start listening on %s%s", host, port)

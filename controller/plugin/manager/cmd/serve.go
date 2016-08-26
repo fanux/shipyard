@@ -40,7 +40,7 @@ var serveCmd = &cobra.Command{
 		// TODO: Work your own magic here
 		fmt.Printf("database info host=%s port=%s user=%s name=%s passwd=%s\n",
 			DBHost, DBPort, DBUser, DBName, DBPasswd)
-		initDB(DBHost, DBPort, DBUser, DBName, DBPasswd)
+		//initDB(DBHost, DBPort, DBUser, DBName, DBPasswd)
 
 		fmt.Println("serve called", Host, Port)
 		runServer(Host, Port)

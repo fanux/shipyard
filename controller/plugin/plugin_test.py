@@ -34,7 +34,7 @@ class PluginTest(unittest.TestCase):
     def test_createPlugin(self):
         headers = {"content-type":"application/json"}
         data = {
-            "name":"time-plugin",
+            "name":"q-pipeline",
             "kind":"",
             "status":"enable",
             "description":"scaling container by time",
