@@ -23,14 +23,11 @@ type Plugin struct {
 }
 
 type Strategy struct {
-	Name     string
-	Status   string
-	Document string
-}
-
-type PluginStrategy struct {
+	//witch plugin strategy belongs to
 	PluginName string
-	Strategy   Strategy
+	Name       string
+	Status     string
+	Document   string
 }
 
 type PluginResource struct {
@@ -73,6 +70,13 @@ func (p PluginResource) Register(container *restful.Container) {
 		Doc("delete plugin").
 		Operation("deletePlugin").
 		Param(ws.PathParameter("pluginName", "name of plugin").DataType("string")))
+
+	//Plugin strateg
+	ws.Route(ws.POST("/{pluginName}/strategies").To(p.createPluginStrategies).
+		Doc("create plugin strategies").
+		Operation("createPluginStrategies").
+		Param(ws.PathParameter("pluginName", "name of plugin").DataType("string")).
+		Reads(Strategy{}))
 
 	container.Add(ws)
 }
@@ -162,6 +166,31 @@ func (this PluginResource) deletePlugin(request *restful.Request, response *rest
 	this.db.Where("name = ?", pluginName).Delete(Plugin{})
 
 	response.WriteHeaderAndEntity(http.StatusOK, PluginError{"0", "delete ok"})
+}
+
+func (this PluginResource) createPluginStrategies(request *restful.Request, response *restful.Response) {
+	//pluginName := request.PathParameter("pluginName")
+	strategy := new(Strategy)
+	res := Strategy{Name: ""}
+
+	err := request.ReadEntity(strategy)
+	if err != nil {
+		response.AddHeader("Content-Type", "text/plain")
+		response.WriteErrorString(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if this.db.Where("name = ?", strategy.Name).First(&res); res.Name == "" {
+		this.db.NewRecord(strategy)
+		this.db.Create(&strategy)
+	} else {
+		log.Printf("plugin %s already exist", strategy.Name)
+		response.WriteHeaderAndEntity(http.StatusBadRequest, PluginError{"400", "already exit"})
+		return
+	}
+
+	response.WriteHeaderAndEntity(http.StatusCreated, strategy)
+
 }
 
 func runServer(host string, port string) {

@@ -26,6 +26,12 @@ func initDB(host, port, user, dbname, passwd string) *gorm.DB {
 		log.Print("plugins table already exist")
 	}
 
+	if !db.HasTable(&Strategy{}) {
+		db.CreateTable(&Strategy{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Strategy{})
+	} else {
+		log.Print("strategies table already exist")
+	}
 	/*
 		p := Plugin{Name: "pipeline", Kind: "nil", Status: "enable", Description: "nil", SpecJsonStr: "nil", Manual: "nil"}
 

@@ -248,7 +248,9 @@ class PluginTest(unittest.TestCase):
             "Document":json.dumps(self.document) 
         }
 
+        headers = {"content-type":"application/json"}
         response = session.post("%s/plugins/%s/strategies" % (URL, plugin_name), 
+                headers=headers,
                 data=json.dumps(plugin_strategy))
 
         """
