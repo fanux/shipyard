@@ -1,0 +1,229 @@
+<div id="enable-modal" class="ui small modal transition">
+    <i class="close icon"></i>
+    <div class="header">
+        Enable Plugin: {{ vm.selectedPluginId | limitTo:12 }}
+    </div>
+    <div class="content">
+        <p>Are you sure you want to enable this plugin?</p>
+    </div>
+    <div class="actions">
+        <div class="ui negative button">
+            No
+        </div>
+        <div ng-click="vm.enablePlugin(vm.selectedPlugin)" class="ui positive right labeled icon button">
+            Yes
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+
+<div id="disable-modal" class="ui small modal transition">
+    <i class="close icon"></i>
+    <div class="header">
+        Enable Plugin: {{ vm.selectedPluginId | limitTo:12 }}
+    </div>
+    <div class="content">
+        <p>Are you sure you want to enable this plugin?</p>
+    </div>
+    <div class="actions">
+        <div class="ui negative button">
+            No
+        </div>
+        <div ng-click="vm.enablePlugin(vm.selectedPlugin)" class="ui positive right labeled icon button">
+            Yes
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+
+
+<div id="delete-modal" class="ui small modal transition">
+    <i class="close icon"></i>
+    <div class="header">
+        Delete Plugin: {{ vm.selectedPluginId | limitTo:12 }}
+    </div>
+    <div class="content">
+        <p>Are you sure you want to destroy this plugin?</p>
+    </div>
+    <div class="actions">
+        <div class="ui negative button">
+            No
+        </div>
+        <div ng-click="vm.deletePlugin()" class="ui positive right labeled icon button">
+            Yes
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+
+
+<div id="rename-modal" class="ui small modal transition">
+    <i class="close icon"></i>
+    <div class="header">
+        Rename Plugin: {{ vm.pluginName(vm.selectedPlugin) }}
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="fields">
+                <div class="twelve wide field">
+                    <label>Name</label>
+                    <input class="input" ng-model="vm.newName" type="text">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui negative button">
+            Cancel
+        </div>
+        <div ng-click="vm.renamePlugin()" class="ui positive right labeled icon button">
+            Rename
+            <i class="edit icon"></i>
+        </div>
+    </div>
+</div>
+
+
+<div class="ui padded grid">
+    <div class="two column row">
+        <div class="left floated column">
+            <div ng-click="vm.refresh()" class="ui small blue labeled icon button">
+                <i class="refresh icon"></i> Refresh
+            </div>
+            <div ui-sref="dashboard.addPlugin" class="ui small green labeled icon button">
+                <i class="add icon"></i> Add Plugin
+            </div>
+        </div>
+
+        <div class="right aligned right floated column">
+            <div class="ui small icon input">
+                <input ng-model="tableFilter" placeholder="Search plugins..." reset-field/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="vm.error">
+        <div class="sixteen wide column">
+            <div class="ui error message">
+                <div class="header">Error...</div>
+                <p>{{vm.error}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="vm.errors.length > 0">
+        <div class="sixteen wide column">
+            <div class="ui error message">
+                <div class="header">Error...</div>
+                <p ng-repeat="e in vm.errors">{{e}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="vm.plugins.length === 0">
+        <div class="column">
+            <div class="ui icon message">
+                <i class="info icon"></i>
+                <div class="content">
+                    <div class="header">
+                        Plugins
+                    </div>
+                    <p>There are no plugins.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="filteredPlugins.length > 0">
+        <div class="column">
+            <table class="ui sortable celled table">
+                <thead>
+                    <tr>
+                        <th id="select-all-table-header" class="collapsing">
+                            <div class="ui fitted checkbox" ng-click="vm.checkAll()">
+                                <input type="checkbox" id="all-cb" ng-model="vm.selectedAll">
+                                <label for="all-cb"></label>
+                            </div>
+                        </th>
+                        <th id="plugin-health-table-header" class="collapsing"><i class="heartbeat icon"></i></th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-class="{'active': vm.selected[c.Id].Selected}" ng-repeat="c in filteredPlugins = (vm.plugins | filter:tableFilter)" jquery>
+                        <td class="collapsing">
+                            <div class="positive ui fitted checkbox">
+                                <input type="checkbox" id="{{$index}}-cb" ng-model="vm.selected[c.Id].Selected">
+                                <label for="{{$index}}-cb"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <i class="circle icon" ng-class="vm.pluginStatusText(c) == 'enable' ? 'green' : vm.pluginStatusText(c) == 'disable' ? 'yellow' : 'red'"></i>
+                            <span class="hidden">{{vm.pluginStatusText(c)}}</span>
+                        </td>
+                        <td>{{c.Name}}</td> 
+                        <td>{{c.Description}}</td>
+                        <td class="collapsing">
+                            <div ui-sref="dashboard.inspect({id: c.Id})" class="basic compact blue ui icon button">
+                                <i class="search icon"></i>
+                            </div>
+                            <div class="ui right pointing dropdown">
+                                <div class="basic compact blue ui icon button">
+                                    <i class="wrench icon"></i>
+                                </div>
+                                <div class="menu">
+                                    <a ng-click="vm.showEnablePluginDialog(c)" class="item"><i class="green refresh icon"></i> Enable</a>
+                                    <a ng-click="vm.showDisablePluginDialog(c)" class="item"><i class="black stop icon"></i> Diable</a>
+                                    <a ng-click="vm.showDeletePluginDialog(c)" class="item"><i class="red remove icon"></i> Delete</a>
+                                    <a ng-click="vm.showRenamePluginDialog(c)" class="item"><i class="edit icon"></i> Rename</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row" ng-show="vm.plugins.length > 0 && filteredPlugins.length === 0">
+        <div class="column">
+            <div class="ui icon message">
+                <i class="info icon"></i>
+                <div class="content">
+                    <div class="header">
+                        Plugins
+                    </div>
+                    <p>No plugins matched your filter query</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="multi-action-menu" class="ui bottom horizontal inverted labeled icon overlay sidebar menu" ng-class="{'visible': vm.selectedItemCount > 0}">
+    <a class="header item">
+        <i class="grid layout icon"></i>{{ vm.selectedItemCount }} Selected
+    </a>
+    <a class="item" ng-click="vm.clearAll()">
+        <i class="ban icon"></i>
+        Clear 
+    </a>
+    <a class="item" ng-click="vm.restartAll()">
+        <i class="refresh icon"></i>
+        Enable 
+    </a>
+    <a class="item" ng-click="vm.stopAll()">
+        <i class="stop icon"></i>
+        Diable 
+    </a>
+    <a class="item" ng-click="vm.destroyAll()">
+        <i class="delete icon"></i>
+        Delete 
+    </a>
+</div>
+
+<script>
+$('.ui.dropdown').dropdown();
+</script>

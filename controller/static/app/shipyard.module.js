@@ -13,6 +13,7 @@
                 'shipyard.events',
                 'shipyard.registry',
                 'shipyard.nodes',
+                'shipyard.plugins',
                 'shipyard.images',
                 'shipyard.filters',
                 'angular-jwt',
