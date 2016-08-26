@@ -263,16 +263,14 @@ class PluginTest(unittest.TestCase):
         response = session.get("%s/plugins/%s/strategies" % (URL, plugin_name))
 
         """
-        {
-            "PluginName":"time-plugin",
-            "Strategies":[
-                {
-                    "Name":"scale-by-hour",
-                    "Status":"enable",
-                    "Document":json.dumps(self.document) 
-                },  
-            ]
-        }
+        "Strategies":[
+            {
+                "PluginName":"time-plugin",
+                "Name":"scale-by-hour",
+                "Status":"enable",
+                "Document":json.dumps(self.document) 
+            },  
+        ]
         """
         self.printJson(response.text)
 
@@ -293,18 +291,20 @@ class PluginTest(unittest.TestCase):
         """
         self.printJson(response.text)
 
-    def test_updatePluginStratety(self):
+    def test_updatePluginStrategy(self):
         plugin_name = "time-plugin"
         strategy_name = "scale-by-hour"
 
         data = {
             "PluginName":"time-plugin",
             "Name":"scale-by-hour",
-            "Status":"disable",
-            "Document":json.dumps(self.document),
+            "Status":"new enale",
+            "Document":"new document",
         }
 
+        headers = {"content-type":"application/json"}
         response = session.put("%s/plugins/%s/strategies/%s" % (URL, plugin_name, strategy_name),
+                headers=headers,
                 data=json.dumps(data))
 
         """

@@ -266,7 +266,7 @@ func (this PluginResource) updatePluginStrategy(request *restful.Request,
 		this.db.Model(&tmp).Update("status", strategy.Status)
 	}
 	if strategy.Document != tmp.Document {
-		this.db.Model(&tmp).Update("kind", strategy.Document)
+		this.db.Model(&tmp).Update("document", strategy.Document)
 	}
 
 	if err != nil {
