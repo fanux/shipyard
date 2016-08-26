@@ -4,8 +4,8 @@ import unittest
 import requests
 import json
 
-from cloudGate.common.define import *
-from cloudGate.config import *
+HOST = "localhost"
+PORT = "8081"
 
 URL = "http://" + HOST + ":" + PORT 
 session = requests.session()
@@ -32,20 +32,21 @@ class PluginTest(unittest.TestCase):
         self.printJson(response.text)
 
     def test_createPlugin(self):
+        headers = {"content-type":"application/json"}
         data = {
             "name":"time-plugin",
             "kind":"",
             "status":"enable",
             "description":"scaling container by time",
-            "spec":"""{"key":"value"}"""
+            "spec":"""{"key":"value"}""",
             "manual":"插件策略文档编写说明书，策略文档各字段含义，编写规则等，markdown格式"
         }
 
-        response = session.post(URL + "/plugins", data=json.dumps(data))
+        response = session.post(URL + "/plugins", headers=headers, data=json.dumps(data))
 
-        self.policy = json.loads(response)
 
         # {"plugin":"time-plugin", "error":0}
+        # print response.text
         self.printJson(response.text)
 
     def test_listPlugins(self):
@@ -60,7 +61,7 @@ class PluginTest(unittest.TestCase):
                     "kind":"",
                     "status":"enable",
                     "description":"scaling container by time",
-                    "spec":"""{"key":"value"}"""
+                    "spec":"a json string"
                 },
             ]
         }
@@ -77,7 +78,7 @@ class PluginTest(unittest.TestCase):
             "kind":"",
             "status":"enable",
             "description":"scaling container by time",
-            "spec":"""{"key":"value"}""",
+            "spec":"a json string",
             "manual":"插件策略文档编写说明书，策略文档各字段含义，编写规则等，markdown格式"
         }
         """
@@ -90,7 +91,7 @@ class PluginTest(unittest.TestCase):
             "kind":"",
             "status":"disable",
             "description":"scaling container by time",
-            "spec":"""{"key":"value"}"""
+            "spec":"a json string",
             "manual":"插件策略文档编写说明书，策略文档各字段含义，编写规则等，markdown格式"
         }
         response = session.put(URL + "/plugins/" + plugin_name, data=json.dumps(data))
@@ -101,7 +102,7 @@ class PluginTest(unittest.TestCase):
             "kind":"",
             "status":"disable",
             "description":"scaling container by time",
-            "spec":"""{"key":"value"}"""
+            "spec":"a json string"
         }
         """
         self.printJson(response.text)
@@ -209,11 +210,11 @@ class PluginTest(unittest.TestCase):
                 },
                 "apps":[
                     {
-                        "app":"ats"
+                        "app":"ats",
                         "number":20
                     },
                     {
-                        "app":"hadoop:latest"
+                        "app":"hadoop:latest",
                         "number":10
                     },
                 ]
@@ -231,11 +232,11 @@ class PluginTest(unittest.TestCase):
                 },
                 "apps":[
                     {
-                        "app":"ats"
+                        "app":"ats",
                         "number":18
                     },
                     {
-                        "app":"hadoop:latest"
+                        "app":"hadoop:latest",
                         "number":12
                     },
                 ]
