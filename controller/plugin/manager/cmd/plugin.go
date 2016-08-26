@@ -78,6 +78,36 @@ func (p PluginResource) Register(container *restful.Container) {
 		Param(ws.PathParameter("pluginName", "name of plugin").DataType("string")).
 		Reads(Strategy{}))
 
+	ws.Route(ws.GET("/{pluginName}/strategies").To(p.listPluginStragies).
+		Doc("list plugin strategies").
+		Operation("listPluginStragies").
+		Param(ws.PathParameter("pluginName", "name of plugin").DataType("string")).
+		Returns(200, "OK", []Strategy{}))
+
+	ws.Route(ws.GET("/{pluginName}/strategies/{strategyName}").
+		To(p.getPluginStrategyDetail).
+		Doc("get strategy detail").
+		Operation("getStrategy").
+		Param(ws.PathParameter("pluginName", "name of plugin").DataType("string")).
+		Param(ws.PathParameter("strategyName", "name of strategy").DataType("string")).
+		Writes(Strategy{}))
+
+	ws.Route(ws.PUT("/{pluginName}/strategies/{strategyName}").
+		To(p.updatePluginStrategy).
+		Doc("update a plugin strategy").
+		Operation("updatePluginStrategy").
+		Param(ws.PathParameter("pluginName", "name of plugin").DataType("string")).
+		Param(ws.PathParameter("StrategyName", "name of plugin strategy").DataType("string")).
+		ReturnsError(409, "duplicate strategy id", nil).
+		Reads(Strategy{}))
+
+	ws.Route(ws.DELETE("/{pluginName}/strategies/{strategyName}").
+		To(p.deletePluginStrategy).
+		Doc("delete plugin strategy").
+		Operation("deletePluginStrategy").
+		Param(ws.PathParameter("pluginName", "name of plugin").DataType("string")).
+		Param(ws.PathParameter("strategyName", "name of plugin strategy").DataType("string")))
+
 	container.Add(ws)
 }
 
@@ -115,7 +145,9 @@ func (this PluginResource) listPlugins(request *restful.Request, response *restf
 	response.WriteEntity(plugins)
 }
 
-func (this PluginResource) getPluginDetail(request *restful.Request, response *restful.Response) {
+func (this PluginResource) getPluginDetail(request *restful.Request,
+	response *restful.Response) {
+
 	plugin := Plugin{Name: ""}
 	pluginName := request.PathParameter("pluginName")
 
@@ -124,7 +156,8 @@ func (this PluginResource) getPluginDetail(request *restful.Request, response *r
 		response.WriteEntity(plugin)
 		return
 	}
-	response.WriteHeaderAndEntity(http.StatusBadRequest, PluginError{"400", "plugin not found"})
+	response.WriteHeaderAndEntity(http.StatusBadRequest,
+		PluginError{"400", "plugin not found"})
 }
 
 func (this PluginResource) updatePlugin(request *restful.Request, response *restful.Response) {
@@ -168,7 +201,8 @@ func (this PluginResource) deletePlugin(request *restful.Request, response *rest
 	response.WriteHeaderAndEntity(http.StatusOK, PluginError{"0", "delete ok"})
 }
 
-func (this PluginResource) createPluginStrategies(request *restful.Request, response *restful.Response) {
+func (this PluginResource) createPluginStrategies(request *restful.Request,
+	response *restful.Response) {
 	//pluginName := request.PathParameter("pluginName")
 	strategy := new(Strategy)
 	res := Strategy{Name: ""}
@@ -191,6 +225,66 @@ func (this PluginResource) createPluginStrategies(request *restful.Request, resp
 
 	response.WriteHeaderAndEntity(http.StatusCreated, strategy)
 
+}
+
+func (this PluginResource) listPluginStragies(request *restful.Request,
+	response *restful.Response) {
+	strategies := []Strategy{}
+
+	this.db.Find(&strategies)
+
+	response.WriteEntity(strategies)
+}
+
+func (this PluginResource) getPluginStrategyDetail(request *restful.Request,
+	response *restful.Response) {
+
+	strategy := Strategy{Name: ""}
+	strategyName := request.PathParameter("strategyName")
+
+	this.db.Where("name = ?", strategyName).First(&strategy)
+	if strategy.Name != "" {
+		response.WriteEntity(strategy)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusBadRequest,
+		PluginError{"400", "plugin strategy not found"})
+}
+
+func (this PluginResource) updatePluginStrategy(request *restful.Request,
+	response *restful.Response) {
+
+	strategyName := request.PathParameter("strategyName")
+	strategy := Strategy{}
+	tmp := Strategy{}
+	err := request.ReadEntity(&strategy)
+
+	//this.db.Where("name = ?", pluginName).Save(&plugin)
+	this.db.Where("name = ?", strategyName).First(&tmp)
+
+	if strategy.Status != tmp.Status {
+		this.db.Model(&tmp).Update("status", strategy.Status)
+	}
+	if strategy.Document != tmp.Document {
+		this.db.Model(&tmp).Update("kind", strategy.Document)
+	}
+
+	if err != nil {
+		response.AddHeader("Content-type", "text/plain")
+		response.WriteErrorString(http.StatusInternalServerError, err.Error())
+		return
+	}
+	response.WriteEntity(tmp)
+}
+
+func (this PluginResource) deletePluginStrategy(request *restful.Request,
+	response *restful.Response) {
+
+	strategyName := request.PathParameter("strategyName")
+
+	this.db.Where("name = ?", strategyName).Delete(Strategy{})
+
+	response.WriteHeaderAndEntity(http.StatusOK, PluginError{"0", "delete ok"})
 }
 
 func runServer(host string, port string) {
