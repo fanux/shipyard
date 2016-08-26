@@ -34,12 +34,12 @@ class PluginTest(unittest.TestCase):
     def test_createPlugin(self):
         headers = {"content-type":"application/json"}
         data = {
-            "name":"q-pipeline",
-            "kind":"",
-            "status":"enable",
-            "description":"scaling container by time",
-            "spec":"""{"key":"value"}""",
-            "manual":"插件策略文档编写说明书，策略文档各字段含义，编写规则等，markdown格式"
+            "Name":"q-pipeline",
+            "Kind":"",
+            "Status":"enable",
+            "Description":"scaling container by time",
+            "Spec":"""{"key":"value"}""",
+            "Manual":"a markdown plugin document write manaul, how to config rules"
         }
 
         response = session.post(URL + "/plugins", headers=headers, data=json.dumps(data))
@@ -54,14 +54,14 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "total":25,
-            "plugins":[
+            "Total":25,
+            "Plugins":[
                 {
-                    "name":"time-plugin",
-                    "kind":"",
-                    "status":"enable",
-                    "description":"scaling container by time",
-                    "spec":"a json string"
+                    "Name":"time-plugin",
+                    "Kind":"",
+                    "Status":"enable",
+                    "Description":"scaling container by time",
+                    "Spec":"a json string"
                 },
             ]
         }
@@ -74,12 +74,12 @@ class PluginTest(unittest.TestCase):
 
         """
          {
-            "name":"time-plugin",
-            "kind":"",
-            "status":"enable",
-            "description":"scaling container by time",
-            "spec":"a json string",
-            "manual":"插件策略文档编写说明书，策略文档各字段含义，编写规则等，markdown格式"
+            "Name":"time-plugin",
+            "Kind":"",
+            "Status":"enable",
+            "Description":"scaling container by time",
+            "Spec":"a json string",
+            "Manual":""
         }
         """
         self.printJson(response.text)
@@ -87,22 +87,22 @@ class PluginTest(unittest.TestCase):
     def test_updatePlugin(self):
         plugin_name = "time-plugin"
         data =  {
-            "name":"time-plugin",
-            "kind":"",
-            "status":"disable",
-            "description":"scaling container by time",
-            "spec":"a json string",
-            "manual":"插件策略文档编写说明书，策略文档各字段含义，编写规则等，markdown格式"
+            "Name":"time-plugin",
+            "Kind":"",
+            "Status":"disable",
+            "Description":"scaling container by time",
+            "Spec":"a json string",
+            "Manual":""
         }
         response = session.put(URL + "/plugins/" + plugin_name, data=json.dumps(data))
 
         """
         {
-            "name":"time-plugin",
-            "kind":"",
-            "status":"disable",
-            "description":"scaling container by time",
-            "spec":"a json string"
+            "Name":"time-plugin",
+            "Kind":"",
+            "Status":"disable",
+            "Description":"scaling container by time",
+            "Spec":"a json string"
         }
         """
         self.printJson(response.text)
@@ -110,14 +110,14 @@ class PluginTest(unittest.TestCase):
     def test_setPluginScope(self):
         plugin_name = "time-plugin"
         data = {
-            "name":"time-plugin",
-            "node-tags":{
-                "disk":"ssd",
-                "memery":"128G"
+            "Name":"time-plugin",
+            "NodeTags":{
+                "Disk":"ssd",
+                "Memery":"128G"
             },
-            "host-names":[
-                "dev-1-107",
-                "dev-1-108"
+            "HostNames":[
+                "Dev-1-107",
+                "Dev-1-108"
             ]
         }
 
@@ -125,7 +125,7 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "error":0 
+            "Error":0 
         }
 
         """
@@ -139,12 +139,12 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "name":"time-plugin",
-            "node-tags":{
-                "disk":"ssd",
-                "memery":"128G"
+            "Name":"time-plugin",
+            "NodeTags":{
+                "Disk":"ssd",
+                "Memery":"128G"
             },
-            "host-names":[
+            "HostNames":[
                 "dev-1-107",
                 "dev-1-108"
             ]
@@ -156,12 +156,12 @@ class PluginTest(unittest.TestCase):
     def test_updatePluginScope(self):
         plugin_name = "time-plugin"
         data = {
-            "name":"time-plugin",
-            "node-tags":{
-                "disk":"ssd",
+            "Name":"time-plugin",
+            "NodeTags":{
+                "Disk":"ssd",
                 "CPU":"64"
             },
-            "host-names":[
+            "HostNames":[
                 "dev-1-109",
                 "dev-1-110"
             ]
@@ -171,12 +171,12 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "name":"time-plugin",
-            "node-tags":{
-                "disk":"ssd",
-                "memery":"128G"
+            "Name":"time-plugin",
+            "NodeTags":{
+                "Disk":"ssd",
+                "Memery":"128G"
             },
-            "host-names":[
+            "HostNames":[
                 "dev-1-107",
                 "dev-1-108"
             ]
@@ -198,58 +198,58 @@ class PluginTest(unittest.TestCase):
 
         self.document = [
             {    # 0点的时候启动20个ats 10个hadoop
-                "time":{
-                    "year":None,
-                    "month":None,
-                    "day":None,
-                    "week":None,
-                    "day_of_week":None,
-                    "hour":0,
-                    "minute":None,
-                    "second":None
+                "Time":{
+                    "Year":None,
+                    "Month":None,
+                    "Day":None,
+                    "Week":None,
+                    "Day_of_week":None,
+                    "Hour":0,
+                    "Minute":None,
+                    "Second":None
                 },
-                "apps":[
+                "Apps":[
                     {
-                        "app":"ats",
-                        "number":20
+                        "Ppp":"ats",
+                        "Number":20
                     },
                     {
-                        "app":"hadoop:latest",
-                        "number":10
+                        "App":"hadoop:latest",
+                        "Number":10
                     },
                 ]
             },
             {
-                 "time":{
-                    "year":None,
-                    "month":None,
-                    "day":None,
-                    "week":None,
-                    "day_of_week":None,
-                    "hour":1,
-                    "minute":None,
-                    "second":None
+                 "Time":{
+                    "Year":None,
+                    "Month":None,
+                    "Day":None,
+                    "Week":None,
+                    "Day_of_week":None,
+                    "Hour":1,
+                    "Minute":None,
+                    "Second":None
                 },
-                "apps":[
+                "Apps":[
                     {
-                        "app":"ats",
-                        "number":18
+                        "App":"ats",
+                        "Number":18
                     },
                     {
-                        "app":"hadoop:latest",
-                        "number":12
+                        "App":"hadoop:latest",
+                        "Number":12
                     },
                 ]
             },
         ]
 
         plugin_strategies = {
-            "plugin-name":"time-plugin",
-            "strategy": {
-                "name":"scale-by-hour",
-                "status":"disable",
+            "PluginName":"time-plugin",
+            "Strategy": {
+                "Name":"scale-by-hour",
+                "Status":"disable",
                 #对controller来说就是一个字符串，不关心其内容
-                "value":json.dumps(self.document) 
+                "Value":json.dumps(self.document) 
             },  #可以添加按分钟伸缩的策略
             
         }
@@ -259,7 +259,7 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "error":0
+            "Error":0
         }
 
         """
@@ -272,12 +272,12 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "plugin-name":"time-plugin",
-            "strategies":[
+            "PluginName":"time-plugin",
+            "Strategies":[
                 {
-                    "name":"scale-by-hour",
-                    "status":"enable",
-                    "value":json.dumps(self.document) 
+                    "Name":"scale-by-hour",
+                    "Status":"enable",
+                    "Value":json.dumps(self.document) 
                 },  
             ]
         }
@@ -293,11 +293,11 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "plugin-name":"time-plugin",
-            "strategies": {
-                "name":"scale-by-hour",
-                "status":"enable",
-                "value":json.dumps(self.document) 
+            "PluginName":"time-plugin",
+            "Strategies": {
+                "Name":"scale-by-hour",
+                "Status":"enable",
+                "Value":json.dumps(self.document) 
             } 
         }
 
@@ -309,11 +309,11 @@ class PluginTest(unittest.TestCase):
         strategy_name = "scale-by-hour"
 
         data = {
-            "plugin-name":"time-plugin",
-            "strategies": {
-                "name":"scale-by-hour",
-                "status":"disable",
-                "value":json.dumps(self.document),
+            "PluginName":"time-plugin",
+            "Strategies": {
+                "Name":"scale-by-hour",
+                "Status":"disable",
+                "Value":json.dumps(self.document),
             } 
         }
 
@@ -322,7 +322,7 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "error":0
+            "Error":0
         }
 
         """
@@ -337,7 +337,7 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "error":0
+            "Error":0
         }
         """
         self.printJson(response.text)
@@ -349,7 +349,7 @@ class PluginTest(unittest.TestCase):
 
         """
         {
-            "error":0
+            "Error":0
         }
 
         """

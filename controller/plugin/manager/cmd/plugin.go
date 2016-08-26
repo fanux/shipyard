@@ -40,6 +40,11 @@ func (p PluginResource) Register(container *restful.Container) {
 		Operation("createPlugin").
 		Reads(Plugin{}))
 
+	ws.Route(ws.GET("").To(p.listPlugins).
+		Doc("list plugins").
+		Operation("listPlugins").
+		Returns(200, "OK", []Plugin{}))
+
 	container.Add(ws)
 }
 
@@ -67,6 +72,14 @@ func (this PluginResource) createPlugin(request *restful.Request, response *rest
 	}
 
 	response.WriteHeaderAndEntity(http.StatusCreated, p)
+}
+
+func (this PluginResource) listPlugins(request *restful.Request, response *restful.Response) {
+	plugins := []Plugin{}
+
+	this.db.Find(&plugins)
+
+	response.WriteEntity(plugins)
 }
 
 func runServer(host string, port string) {
