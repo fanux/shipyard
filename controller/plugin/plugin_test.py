@@ -85,16 +85,17 @@ class PluginTest(unittest.TestCase):
         self.printJson(response.text)
 
     def test_updatePlugin(self):
-        plugin_name = "time-plugin"
+        plugin_name = "q-pipeline"
+        headers = {"content-type":"application/json"}
         data =  {
-            "Name":"time-plugin",
-            "Kind":"",
-            "Status":"disable",
-            "Description":"scaling container by time",
-            "Spec":"a json string",
-            "Manual":""
+            "Name":"q-pipeline",
+            "Kind":"newKind",
+            "Status":"new disable",
+            "Description":"new scaling container by time",
+            "Spec":"new a json string",
+            "Manual":"new manal new"
         }
-        response = session.put(URL + "/plugins/" + plugin_name, data=json.dumps(data))
+        response = session.put(URL + "/plugins/" + plugin_name, headers=headers, data=json.dumps(data))
 
         """
         {
@@ -124,9 +125,6 @@ class PluginTest(unittest.TestCase):
         response = session.post("%s/plugins/%s/scope" % (URL, plugin_name), data=json.dumps(data))
 
         """
-        {
-            "Error":0 
-        }
         """
         self.printJson(response.text)
 
@@ -257,10 +255,6 @@ class PluginTest(unittest.TestCase):
                 data=json.dumps(plugin_strategies))
 
         """
-        {
-            "Error":0
-        }
-
         """
         self.printJson(response.text)
 
@@ -320,10 +314,6 @@ class PluginTest(unittest.TestCase):
                 data=json.dumps(data))
 
         """
-        {
-            "Error":0
-        }
-
         """
         self.printJson(response.text)
 
@@ -335,26 +325,21 @@ class PluginTest(unittest.TestCase):
                 (URL, plugin_name, strategy_name))
 
         """
-        {
-            "Error":0
-        }
         """
         self.printJson(response.text)
 
     def test_deletePlugin(self):
-        plugin_name = "time-plugin"
+        plugin_name = "q-pipeline"
 
         response = session.delete(URL + "/plugins/" + plugin_name)
 
         """
         {
-            "Error":0
+            "Msg": "delete ok", 
+            "Code": "0"
         }
-
         """
         self.printJson(response.text)
-
-
 
 if __name__ == '__main__':
     unittest.main()
