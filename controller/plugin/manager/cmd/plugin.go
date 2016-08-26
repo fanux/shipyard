@@ -203,6 +203,7 @@ func (this PluginResource) deletePlugin(request *restful.Request, response *rest
 
 func (this PluginResource) createPluginStrategies(request *restful.Request,
 	response *restful.Response) {
+
 	//pluginName := request.PathParameter("pluginName")
 	strategy := new(Strategy)
 	res := Strategy{Name: ""}
@@ -229,6 +230,7 @@ func (this PluginResource) createPluginStrategies(request *restful.Request,
 
 func (this PluginResource) listPluginStragies(request *restful.Request,
 	response *restful.Response) {
+
 	strategies := []Strategy{}
 
 	this.db.Find(&strategies)
