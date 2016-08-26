@@ -246,7 +246,7 @@ class PluginTest(unittest.TestCase):
                 "Name":"scale-by-hour",
                 "Status":"disable",
                 #对controller来说就是一个字符串，不关心其内容
-                "Value":json.dumps(self.document) 
+                "Document":json.dumps(self.document) 
             },  #可以添加按分钟伸缩的策略
             
         }
@@ -270,7 +270,7 @@ class PluginTest(unittest.TestCase):
                 {
                     "Name":"scale-by-hour",
                     "Status":"enable",
-                    "Value":json.dumps(self.document) 
+                    "Document":json.dumps(self.document) 
                 },  
             ]
         }
@@ -290,7 +290,7 @@ class PluginTest(unittest.TestCase):
             "Strategies": {
                 "Name":"scale-by-hour",
                 "Status":"enable",
-                "Value":json.dumps(self.document) 
+                "Document":json.dumps(self.document) 
             } 
         }
 
@@ -306,7 +306,7 @@ class PluginTest(unittest.TestCase):
             "Strategies": {
                 "Name":"scale-by-hour",
                 "Status":"disable",
-                "Value":json.dumps(self.document),
+                "Document":json.dumps(self.document),
             } 
         }
 

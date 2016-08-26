@@ -22,6 +22,12 @@ type Plugin struct {
 	Manual      string
 }
 
+type Strategy struct {
+	Name     string
+	Status   string
+	Document string
+}
+
 type PluginResource struct {
 	db *gorm.DB
 }
