@@ -28,6 +28,11 @@ type Strategy struct {
 	Document string
 }
 
+type PluginStrategy struct {
+	PluginName string
+	Strategy   Strategy
+}
+
 type PluginResource struct {
 	db *gorm.DB
 }

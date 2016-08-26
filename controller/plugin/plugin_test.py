@@ -240,19 +240,16 @@ class PluginTest(unittest.TestCase):
             },
         ]
 
-        plugin_strategies = {
+        plugin_strategy = {
             "PluginName":"time-plugin",
-            "Strategy": {
-                "Name":"scale-by-hour",
-                "Status":"disable",
-                #对controller来说就是一个字符串，不关心其内容
-                "Document":json.dumps(self.document) 
-            },  #可以添加按分钟伸缩的策略
-            
+            "Name":"scale-by-hour",
+            "Status":"disable",
+            #对controller来说就是一个字符串，不关心其内容
+            "Document":json.dumps(self.document) 
         }
 
         response = session.post("%s/plugins/%s/strategies" % (URL, plugin_name), 
-                data=json.dumps(plugin_strategies))
+                data=json.dumps(plugin_strategy))
 
         """
         """
@@ -274,7 +271,6 @@ class PluginTest(unittest.TestCase):
                 },  
             ]
         }
-
         """
         self.printJson(response.text)
 
@@ -287,11 +283,9 @@ class PluginTest(unittest.TestCase):
         """
         {
             "PluginName":"time-plugin",
-            "Strategies": {
-                "Name":"scale-by-hour",
-                "Status":"enable",
-                "Document":json.dumps(self.document) 
-            } 
+            "Name":"scale-by-hour",
+            "Status":"enable",
+            "Document":json.dumps(self.document) 
         }
 
         """
@@ -303,11 +297,9 @@ class PluginTest(unittest.TestCase):
 
         data = {
             "PluginName":"time-plugin",
-            "Strategies": {
-                "Name":"scale-by-hour",
-                "Status":"disable",
-                "Document":json.dumps(self.document),
-            } 
+            "Name":"scale-by-hour",
+            "Status":"disable",
+            "Document":json.dumps(self.document),
         }
 
         response = session.put("%s/plugins/%s/strategies/%s" % (URL, plugin_name, strategy_name),
