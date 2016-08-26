@@ -127,7 +127,6 @@ class PluginTest(unittest.TestCase):
         {
             "Error":0 
         }
-
         """
         self.printJson(response.text)
 
@@ -203,7 +202,7 @@ class PluginTest(unittest.TestCase):
                     "Month":None,
                     "Day":None,
                     "Week":None,
-                    "Day_of_week":None,
+                    "DayOfWeek":None,
                     "Hour":0,
                     "Minute":None,
                     "Second":None
@@ -225,7 +224,7 @@ class PluginTest(unittest.TestCase):
                     "Month":None,
                     "Day":None,
                     "Week":None,
-                    "Day_of_week":None,
+                    "DayOfWeek":None,
                     "Hour":1,
                     "Minute":None,
                     "Second":None
