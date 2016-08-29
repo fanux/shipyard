@@ -34,7 +34,7 @@ class PluginTest(unittest.TestCase):
     def test_createPlugin(self):
         headers = {"content-type":"application/json"}
         data = {
-            "Name":"q-pipeline",
+            "Name":"plugin_pipeline",
             "Kind":"",
             "Status":"enable",
             "Description":"scaling container by time",
@@ -197,10 +197,10 @@ class PluginTest(unittest.TestCase):
 
         self.document = [
             {    # 0点的时候启动20个ats 10个hadoop
-                "Cron":"* * 0 * * *",
+                "Cron":"*/1 * * * * *",
                 "Apps":[
                     {
-                        "Ppp":"ats",
+                        "App":"ats",
                         "Number":20
                     },
                     {
@@ -208,26 +208,13 @@ class PluginTest(unittest.TestCase):
                         "Number":10
                     },
                 ]
-            },
-            {
-                "Cron":"* * 1 * * *",
-                "Apps":[
-                    {
-                        "App":"ats",
-                        "Number":18
-                    },
-                    {
-                        "App":"hadoop:latest",
-                        "Number":12
-                    },
-                ]
-            },
+            }
         ]
 
         plugin_strategy = {
-            "PluginName":"time-plugin",
+            "PluginName":"plugin_pipeline",
             "Name":"scale-by-hour",
-            "Status":"disable",
+            "Status":"enable",
             #对controller来说就是一个字符串，不关心其内容
             "Document":json.dumps(self.document) 
         }

@@ -66,7 +66,8 @@ func startCron(host, port string) {
 	if plugin.Status != "enable" {
 	}
 
-	rules := make([]PipelineRule, 20)
+	//rules := make([]PipelineRule, 200)
+	rules := []PipelineRule{}
 
 	for _, strategy := range strategies {
 		if strategy.Status == "enable" {

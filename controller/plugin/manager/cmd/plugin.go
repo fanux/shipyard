@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -35,8 +36,8 @@ type PluginResource struct {
 }
 
 type ScaleApp struct {
-	App string
-	Num int
+	App    string
+	Number int
 }
 
 func (p PluginResource) Register(container *restful.Container) {
@@ -301,7 +302,15 @@ func (this PluginResource) deletePluginStrategy(request *restful.Request,
 
 func (this PluginResource) scaleApp(request *restful.Request,
 	response *restful.Response) {
+
+	scaleApp := []ScaleApp{}
+
+	err := request.ReadEntity(&scaleApp)
+	if err != nil {
+	}
+
 	//TODO
+	fmt.Println("scale: ", scaleApp)
 }
 
 func runServer(host string, port string) {
