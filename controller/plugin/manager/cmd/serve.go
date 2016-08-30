@@ -29,6 +29,8 @@ var (
 	DBUser   string
 	DBName   string
 	DBPasswd string
+
+	DockerHost string
 )
 
 // serveCmd represents the serve command
@@ -68,4 +70,6 @@ func init() {
 	serveCmd.Flags().StringVarP(&DBUser, "db-user", "u", "shipyard", "the user of database server")
 	serveCmd.Flags().StringVarP(&DBName, "db-name", "n", "shipyard", "the database name of database server")
 	serveCmd.Flags().StringVarP(&DBPasswd, "db-passwd", "w", "111111", "the database passwd")
+
+	serveCmd.Flags().StringVarP(&DockerHost, "docker-host", "s", "http://192.168.96.99:4000", "the docker host")
 }

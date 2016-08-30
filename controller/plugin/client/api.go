@@ -48,7 +48,7 @@ func (this Api) GetPluginInfo(pluginName string) (Plugin, error) {
 
 	log.Printf("get plugin info: %s", p.Description)
 
-	return *p, nil
+	return *p, err
 }
 
 func (this Api) GetPluginStrategies(pluginName string) ([]Strategy, error) {
@@ -82,7 +82,7 @@ func (this Api) GetPluginStrategies(pluginName string) ([]Strategy, error) {
 
 	json.Unmarshal(body, &strategies)
 
-	return strategies, nil
+	return strategies, err
 }
 
 func (this Api) ScaleApps(appscale []AppScale) error {
@@ -103,5 +103,5 @@ func (this Api) ScaleApps(appscale []AppScale) error {
 		fmt.Println(resp)
 	}
 
-	return nil
+	return err
 }

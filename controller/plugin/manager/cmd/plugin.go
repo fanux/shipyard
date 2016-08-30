@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -300,6 +299,7 @@ func (this PluginResource) deletePluginStrategy(request *restful.Request,
 	response.WriteHeaderAndEntity(http.StatusOK, PluginError{"0", "delete ok"})
 }
 
+/*
 func (this PluginResource) scaleApp(request *restful.Request,
 	response *restful.Response) {
 
@@ -309,9 +309,16 @@ func (this PluginResource) scaleApp(request *restful.Request,
 	if err != nil {
 	}
 
-	//TODO
+	//	{
+//			"ats:latest":{2, 20}
+//			"hadoop:v1.0":{20, 2}
+//		}
+
+	scaleInfo := make(map[string]struct{Current int, Need int})
+
 	fmt.Println("scale: ", scaleApp)
 }
+*/
 
 func runServer(host string, port string) {
 	wsContainer := restful.NewContainer()
