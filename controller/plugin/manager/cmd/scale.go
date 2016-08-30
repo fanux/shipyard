@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"cloudflare/cfssl/log"
+	"fmt"
 	"strings"
 
 	"github.com/emicklei/go-restful"
@@ -32,11 +33,25 @@ func releaseContainers(info map[string]ContainerNumberInfo, client *dockerclient
 	}
 
 	for _, c := range containers {
+		fmt.Printf("container image name:%s\n", c.Image)
 		containerNumberInfo, ok := info[c.Image]
 		if !ok {
+			fmt.Printf("out of scale:%s\n", c.Image)
 			continue
 		}
 		containerNumberInfo.Current++
+
+		if containerNumberInfo.ContainerId == "" {
+			containerNumberInfo.ContainerId = c.Id
+		}
+
+		info[c.Image] = containerNumberInfo
+
+		cid, ok2 := info[c.Image]
+		if ok2 {
+			fmt.Printf("image [%s] container id is:%s\n", c.Image, cid.ContainerId)
+		}
+
 		if containerNumberInfo.Current > containerNumberInfo.Need {
 			// stop container with 5 seconds timeout
 			client.StopContainer(c.Id, 5)
@@ -112,11 +127,13 @@ func (this PluginResource) scaleApp(request *restful.Request,
 
 	dockerClient, err := dockerclient.NewDockerClient(DockerHost, nil)
 	if err != nil {
+		fmt.Printf("init docker client error:%s", err)
 	}
 
 	err = request.ReadEntity(&scaleApp)
 	if err != nil {
 	}
+	fmt.Println("scale : ", scaleApp)
 
 	/*
 		{
@@ -128,6 +145,8 @@ func (this PluginResource) scaleApp(request *restful.Request,
 	scaleInfo := make(map[string]ContainerNumberInfo)
 
 	initScaleInfo(scaleInfo, scaleApp)
+
+	fmt.Println("map info: ", scaleInfo)
 
 	releaseContainers(scaleInfo, dockerClient)
 	deployContainers(scaleInfo, dockerClient)

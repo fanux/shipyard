@@ -306,5 +306,26 @@ class PluginTest(unittest.TestCase):
         """
         self.printJson(response.text)
 
+    def test_scaleApps(self):
+        data = [
+            {
+                "App":"172.20.1.128:5000/nginx:latest",
+                "Number":2,
+            },
+            {
+                "App":"172.20.1.128:5000/httpd:2.4",
+                "Number":8,
+            }
+        ]
+
+        headers = {"content-type":"application/json"}
+        response = session.post("%s/plugins/scale" % URL,
+                headers=headers,
+                data=json.dumps(data))
+
+        """
+        """
+        #self.printJson(response.text)
+
 if __name__ == '__main__':
     unittest.main()
