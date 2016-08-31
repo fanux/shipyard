@@ -19,7 +19,7 @@
             enable: function(pluginId,plugin) {
                 plugin.Status='enable';
                 var promise = $http
-                    .post(url + '/plugins/' + pluginId,plugin)
+                    .put(url + '/plugins/' + pluginId,plugin)
                     .then(function(response) {
                         return response.data;
                     });
@@ -28,7 +28,7 @@
             disable: function(pluginId,plugin) {
                 plugin.Status='disable';
                 var promise = $http
-                    .post(url + '/plugins/' + pluginId,plugin)
+                    .put(url + '/plugins/' + pluginId,plugin)
                     .then(function(response) {
                         return response.data;
                     });
