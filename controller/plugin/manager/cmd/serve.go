@@ -31,6 +31,8 @@ var (
 	DBPasswd string
 
 	DockerHost string
+
+	AllowedDomain string
 )
 
 // serveCmd represents the serve command
@@ -72,4 +74,6 @@ func init() {
 	serveCmd.Flags().StringVarP(&DBPasswd, "db-passwd", "w", "111111", "the database passwd")
 
 	serveCmd.Flags().StringVarP(&DockerHost, "docker-host", "s", "http://192.168.96.99:4000", "the docker host")
+
+	serveCmd.Flags().StringVarP(&AllowedDomain, "allowed-domain", "o", "http://192.168.86.170:8888", "manager allowed origin")
 }
