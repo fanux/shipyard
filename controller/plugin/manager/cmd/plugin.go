@@ -326,6 +326,16 @@ func runServer(host string, port string) {
 	db := initDB(DBHost, DBPort, DBUser, DBName, DBPasswd)
 	defer db.Close()
 
+	cors := restful.CrossOriginResourceSharing{
+		AllowedHeaders: []string{"Origin", "Content-Type", "Accept"},
+		AllowedDomains: []string{AllowedDomain},
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
+		Container:      wsContainer,
+	}
+
+	wsContainer.Filter(cors.Filter)
+	wsContainer.Filter(wsContainer.OPTIONSFilter)
+
 	p := PluginResource{db}
 	p.Register(wsContainer)
 
