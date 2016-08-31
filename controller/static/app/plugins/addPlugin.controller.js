@@ -36,7 +36,7 @@
                 manual: vm.maual,
             }
             $http
-                .post('http://192.168.96.99:8081/plugins', vm.request)
+                .post('http://127.0.0.1:8081/plugins', vm.request)
                 .success(function(data, status, headers, config) {
                     $state.transitionTo('dashboard.plugins');
                 })

@@ -8,9 +8,10 @@
         StrategyService.$inject = ['$http'];
     function StrategyService($http) {
         return {
+            var http = 'http://127.0.0.1:8081'
             list: function() {
                 var promise = $http
-                    .get('/json/strategies.json')
+                    .get(url+'/strategies')
                     .then(function(response) {
                         return response.data;
                     });
@@ -19,7 +20,7 @@
             enable: function(pluginId,plugin) {
                 plugin.Status='enable';
                 var promise = $http
-                    .post('/json/plugins.json' + pluginId,plugin)
+                    .post(url+'/plugins/'+plugin.PluginName+'/strategies/'+plugin.Name,plugin)
                     .then(function(response) {
                         return response.data;
                     });
@@ -28,7 +29,7 @@
             disable: function(pluginId,plugin) {
                 plugin.Status='disable';
                 var promise = $http
-                    .post('/json/plugins.json' + pluginId,plugin)
+                    .post(url+'/plugins/'+plugin.PluginName+'/strategies/'+plugin.Name,plugin)
                     .then(function(response) {
                         return response.data;
                     });
@@ -48,7 +49,7 @@
                 plugin.Status = newStatus;
                 plugin.Document = newDocument;
                 var promise = $http
-                    .post('/json/plugins.json',plugin)
+                    .post(url+'/plugins/'+plugin.PluginName+'/strategies',plugin)
                     .then(function(response) {
                         return response.data;
                     });
@@ -56,7 +57,7 @@
             },
             inspect: function(pluginId) {
                 var promise = $http
-                    .get('/json/cpu.json')
+                    .get(url+'/plugins/'+plugin.PluginName+'/strategies',plugin)
                     .then(function(response) {
                         return response.data;
                     });
