@@ -14,6 +14,7 @@
                 'shipyard.registry',
                 'shipyard.nodes',
                 'shipyard.plugins',
+                'shipyard.strategies',
                 'shipyard.images',
                 'shipyard.filters',
                 'angular-jwt',

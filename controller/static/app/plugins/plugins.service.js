@@ -8,9 +8,10 @@
         PluginService.$inject = ['$http'];
     function PluginService($http) {
         return {
+            var url = 'http://127.0.0.1:8081'; 
             list: function() {
                 var promise = $http
-                    .get('/json/plugins.json')
+                    .get(url + '/plugins')
                     .then(function(response) {
                         return response.data;
                     });
@@ -19,7 +20,7 @@
             enable: function(pluginId,plugin) {
                 plugin.Status='enable';
                 var promise = $http
-                    .post('/json/plugins.json' + pluginId,plugin)
+                    .post(url + '/plugins/' + pluginId,plugin)
                     .then(function(response) {
                         return response.data;
                     });
@@ -28,7 +29,7 @@
             disable: function(pluginId,plugin) {
                 plugin.Status='disable';
                 var promise = $http
-                    .post('/json/plugins.json' + pluginId,plugin)
+                    .post(url + '/plugins/' + pluginId,plugin)
                     .then(function(response) {
                         return response.data;
                     });
@@ -36,7 +37,7 @@
             },
             delete: function(pluginId) {
                 var promise = $http
-                    .delete('/json/plugins.json' + pluginId)
+                    .delete(url + '/plugins/' + pluginId)
                     .then(function(response) {
                         return response.data;
                     });
@@ -48,7 +49,7 @@
                 plugin.Spec = newSpec;
                 plugin.Manual = newManual;
                 var promise = $http
-                    .post('/json/plugins.json',plugin)
+                    .post(url + '/plugins/' + pluginId,plugin)
                     .then(function(response) {
                         return response.data;
                     });
@@ -56,7 +57,7 @@
             },
             inspect: function(pluginId) {
                 var promise = $http
-                    .get('/json/time.json')
+                    .get(url + '/plugins/' + pluginId)
                     .then(function(response) {
                         return response.data;
                     });
