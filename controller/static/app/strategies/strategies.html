@@ -66,14 +66,12 @@
         <div class="ui form">
             <div class="fields">
                 <div class="twelve wide field">
-                    <label>Kind</label>
-                    <input class="input" ng-model="vm.Kind" type="text">
-                    <label>Description</label>
-                    <input class="input" ng-model="vm.Description" type="text">
-                    <label>Spec</label>
-                    <input class="input" ng-model="vm.Spec" type="text">
-                    <label>Manual</label>
-                    <textarea class="input" ng-model="vm.Manual" type="text"></textarea>
+                    <label>Name</label>
+                    <input class="input" ng-model="vm.Name" type="text">
+                    <label>PluginName</label>
+                    <input class="input" ng-model="vm.PluginName" type="text">
+                    <label>Document</label>
+                    <textarea class="input" ng-model="vm.Document" type="text"></textarea>
                 </div>
             </div>
         </div>
@@ -96,8 +94,8 @@
             <div ng-click="vm.refresh()" class="ui small blue labeled icon button">
                 <i class="refresh icon"></i> Refresh
             </div>
-            <div ui-sref="dashboard.addPlugin" class="ui small green labeled icon button">
-                <i class="add icon"></i> Add Plugin
+            <div ui-sref="dashboard.addStrategy" class="ui small green labeled icon button">
+                <i class="add icon"></i> Add Strategy
             </div>
         </div>
 
@@ -153,7 +151,7 @@
                         </th>
                         <th id="plugin-health-table-header" class="collapsing"><i class="heartbeat icon"></i></th>
                         <th>Name</th>
-                        <th>Description</th>
+                        <th>PluginName</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -170,12 +168,12 @@
                             <span class="hidden">{{vm.pluginStatusText(c)}}</span>
                         </td>
                         <td>{{c.Name}}</td> 
-                        <td>{{c.Description}}</td>
+                        <td>{{c.PluginName}}</td>
                         <td class="collapsing">
-                            <div ui-sref="dashboard.pdetail({id: c.Name})" class="basic compact blue ui icon button">
+                            <div ui-sref="dashboard.sdetail({id: c.Name})" class="basic compact blue ui icon button">
                                 <i class="search icon"></i>
                             </div>
-                            <div ui-sref="dashboard.psdetail({id: c.Name})" class="basic compact blue ui icon button">
+                            <div ui-sref="dashboard.sdetail({id: c.Name})" class="basic compact blue ui icon button">
                                 <i class="bar chart icon"></i>
                             </div>
 

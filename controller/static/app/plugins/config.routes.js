@@ -18,10 +18,24 @@
             })
             .state('dashboard.addPlugin', {
                 url: '^/plugins/add',
-                templateUrl: 'app/plugins/addplugin.html',
+                templateUrl: 'app/plugins/addPlugin.html',
                 controller: 'PluginAddController',
                 controllerAs: 'vm',
                 authenticate: true
+            })
+            .state('dashboard.pdetail', {
+                url: '^/plugins/{id}',
+                templateUrl: 'app/plugins/pdetail.html',
+                controller: 'PluginController',
+                controllerAs: 'vm',
+                authenticate: true,
+                resolve: {
+                    resolvedPlugin: ['PluginService', '$state', '$stateParams', function(PluginService, $state, $stateParams) {
+                        return PluginService.inspect($stateParams.id).then(null, function(errorData) {
+                            $state.go('error');
+                        });
+                    }]
+                }
             });
     }
 })();

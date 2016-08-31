@@ -2,11 +2,11 @@
     'use strict';
 
     angular
-        .module('shipyard.plugins')
-        .controller('pluginsController', PluginsController);
+        .module('shipyard.strategies')
+        .controller('strategiesController', StrategiesController);
 
-    PluginsController.$inject = ['$scope', 'PluginService', '$state'];
-    function PluginsController($scope, PluginService, $state) {
+    StrategiesController.$inject = ['$scope', 'StrategyService', '$state'];
+    function StrategiesController($scope, StrategyService, $state) {
         var vm = this;
         vm.error = "";
         vm.errors = [];
@@ -17,10 +17,10 @@
         vm.numOfInstances = 1;
         vm.selectedPlugin = null;
         vm.selectedPluginId = "";
-        vm.Kind = "";
-        vm.Description = "";
-        vm.Spec = "";
-        vm.Manual = "";
+        vm.Name = "";
+        vm.PluginName = "";
+        vm.Status = "disable";
+        vm.Document = "";
 
         vm.showDeletePluginDialog = showDeletePluginDialog;
         vm.showEnablePluginDialog = showEnablePluginDialog;
@@ -85,7 +85,7 @@
         function restartAll() {
             angular.forEach(vm.selected, function (s) {
                 if(s.Selected == true) {
-                    PluginService.restart(s.Id)
+                    StrategyService.restart(s.Id)
                         .then(function(data) {
                             delete vm.selected[s.Id];
                             vm.refresh();
@@ -99,7 +99,7 @@
         function stopAll() {
             angular.forEach(vm.selected, function (s) {
                 if(s.Selected == true) {
-                    PluginService.stop(s.Id)
+                    StrategyService.stop(s.Id)
                         .then(function(data) {
                             delete vm.selected[s.Id];
                             vm.refresh();
@@ -113,7 +113,7 @@
         function destroyAll() {
             angular.forEach(vm.selected, function (s) {
                 if(s.Selected == true) {
-                    PluginService.destroy(s.Id)
+                    StrategyService.destroy(s.Id)
                         .then(function(data) {
                             delete vm.selected[s.Id];
                             vm.refresh();
@@ -131,9 +131,9 @@
         }
 
         function refresh() {
-            PluginService.list()
+            StrategyService.list()
                 .then(function(data) {
-                    vm.plugins = data['plugins']; 
+                    vm.plugins = data['Strategies']; 
                     angular.forEach(vm.plugins, function (plugin) {
                         vm.selected[plugin.Id] = {Id: plugin.Name, Selected: vm.selectedAll};
                     });
@@ -177,7 +177,7 @@
 
 
         function enablePlugin(plugin) {
-            PluginService.enable(vm.selectedPluginId,plugin)
+            StrategyService.enable(vm.selectedPluginId,plugin)
                 .then(function(data) {
                     vm.refresh();
                 }, function(data) {
@@ -186,7 +186,7 @@
         }
 
         function disablePlugin(plugin) {
-            PluginService.disable(vm.selectedPluginId,plugin)
+            StrategyService.disable(vm.selectedPluginId,plugin)
                 .then(function(data) {
                     vm.refresh();
                 }, function(data) {
@@ -195,20 +195,19 @@
         }
 
         function editPlugin(plugin) {
-            PluginService.edit(plugin,vm.Kind,vm.Description,vm.Spec,vm.Manual)
+            StrategyService.edit(plugin,vm.Name,vm.PluginName,vm.Status,vm.Document)
                 .then(function(data) {
                     vm.refresh();
                 }, function(data) {
                     vm.error = data;
                 });
-                vm.Kind = "";
-                vm.Description = "";
-                vm.Spec = "";
-                vm.Manual = "";
+                vm.Name = "";
+                vm.PluginName = "";
+                vm.Document = "";
         }
 
         function deletePlugin() {
-            PluginService.delete(vm.selectedPluginId)
+            StrategyService.delete(vm.selectedPluginId)
                 .then(function(data) {
                     vm.refresh();
                 }, function(data) {

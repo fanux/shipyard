@@ -1,0 +1,133 @@
+<div class="ui small destroy modal transition">
+<i class="close icon"></i>
+<div class="header">
+    Destroy Container: {{ vm.selectedContainerId | limitTo:12 }}
+</div>
+<div class="content">
+    <p>Are you sure you want to destroy this plugin?</p>
+</div>
+<div class="actions">
+    <div class="ui negative button">
+        No
+    </div>
+    <div ng-click="vm.destroyContainer()" class="ui positive right labeled icon button">
+        Yes
+        <i class="checkmark icon"></i>
+    </div>
+</div>
+</div>
+
+<div class="ui small restart modal transition" style="margin-top: -98px;">
+    <i class="close icon"></i>
+    <div class="header">
+        Restart Container: {{ vm.selectedContainerId | limitTo:12 }}
+    </div>
+    <div class="content">
+        <p>Are you sure you want to restart this plugin?</p>
+    </div>
+    <div class="actions">
+        <div class="ui negative button">
+            No
+        </div>
+        <div ng-click="vm.restartContainer()" class="ui positive right labeled icon button">
+            Yes
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+
+<div class="ui small stop modal transition" style="margin-top: -98px;">
+    <i class="close icon"></i>
+    <div class="header">
+        Stop Container: {{ vm.selectedContainerId | limitTo:12 }}
+    </div>
+    <div class="content">
+        <p>Are you sure you want to stop this plugin?</p>
+    </div>
+    <div class="actions">
+        <div class="ui negative button">
+            No
+        </div>
+        <div ng-click="vm.stopContainer()" class="ui positive right labeled icon button">
+            Yes
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+
+<div class="ui small pause modal transition" style="margin-top: -98px;">
+    <i class="close icon"></i>
+    <div class="header">
+        Pause Container: {{ vm.selectedContainerId | limitTo:12 }}
+    </div>
+    <div class="content">
+        <p>Are you sure you want to pause this plugin?</p>
+    </div>
+    <div class="actions">
+        <div class="ui negative button">
+            No
+        </div>
+        <div ng-click="vm.pauseContainer()" class="ui positive right labeled icon button">
+            Yes
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+
+<div class="ui padded grid">
+    <div class="row">
+        <div class="column">
+            <div class="ui segment page" ng-class="{'yellow': (vm.plugin.State.Running && vm.plugin.State.Paused), 'green': (vm.plugin.State.Running && !vm.plugin.State.Paused), 'red': !vm.plugin.State.Running}">
+                <div class= "ui grid">
+                    <div class="two column row">
+                        <div class="column">
+                            <h3 class="ui header">
+                                <div class="content">                                    
+                                    <i class="circle icon" ng-class="vm.pluginStatusText(vm.plugin) == 'enable' ? 'red' :  'green'"></i>
+                                    {{ vm.plugin.Name }}
+                                    {{ vm.plugin }}
+                                    {{ vm.plugin.Status }}
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="floated right aligned right column">
+                            <h3 class="ui header">
+                                <div class="content">
+                                    <div class="header" ng-show="vm.plugin.State">Started {{ vm.plugin.State | fromCalendar }}</div>
+                                    <div class="header" ng-hide="vm.plugin.State">Finished {{ vm.plugin.State | fromCalendar }}</div>
+                                </div>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="three column row">
+                        <div class="column">
+                            <h4 class="ui dividing header">Plugin Configuration</h4>
+                            <div class="ui two column grid">
+                                <div class="column">
+                                    <div class="content">
+                                        <span class="header"><b>Kind</b></span>
+                                        <div class="description">{{ vm.plugin.Kind | limitTo:12 }}</div>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="content">
+                                        <span class="header"><b>Spec</b></span>
+                                        <pre class="logs">{{ vm.plugin.Spec }}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="ui dividing header">Description</h4>
+                                    <div class="content">
+                                        <pre class="logs">{{ vm.plugin.Description }}</pre>
+                                    </div>
+                        </div>
+                        <div class="column">
+                            <h4 class="ui dividing header">Manual</h4>
+                            <div class="description">{{ vm.plugin.Manual }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,15 +2,15 @@
     'use strict';
 
     angular
-        .module('shipyard.plugins')
-        .factory('PluginService', PluginService)
+        .module('shipyard.strategies')
+        .factory('StrategyService', StrategyService)
 
-        PluginService.$inject = ['$http'];
-    function PluginService($http) {
+        StrategyService.$inject = ['$http'];
+    function StrategyService($http) {
         return {
             list: function() {
                 var promise = $http
-                    .get('/json/plugins.json')
+                    .get('/json/strategies.json')
                     .then(function(response) {
                         return response.data;
                     });
@@ -42,11 +42,11 @@
                     });
                 return promise;
             },
-            edit: function(plugin,newKind,newDescription,newSpec,newManual) {
-                plugin.Kind = newKind;
-                plugin.Description = newDescription;
-                plugin.Spec = newSpec;
-                plugin.Manual = newManual;
+            edit: function(plugin,newName,newPluginName,newStatus,newDocument) {
+                plugin.Name = newName;
+                plugin.PluginName = newPluginName;
+                plugin.Status = newStatus;
+                plugin.Document = newDocument;
                 var promise = $http
                     .post('/json/plugins.json',plugin)
                     .then(function(response) {
@@ -56,7 +56,7 @@
             },
             inspect: function(pluginId) {
                 var promise = $http
-                    .get('/json/time.json')
+                    .get('/json/cpu.json')
                     .then(function(response) {
                         return response.data;
                     });

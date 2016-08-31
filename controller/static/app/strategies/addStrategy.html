@@ -10,16 +10,16 @@
 <div class="row">
     <div class="column">
         <div class="ui segment">
-            <div class="ui form" ng-submit="vm.addPlugin()" ng-method="post">
-                <h4 class="ui dividing header">Plugin Details</h4>
+            <div class="ui form" ng-submit="vm.addStrategy()" ng-method="post">
+                <h4 class="ui dividing header">Strategy Details</h4>
                 <div class="three fields">
                                 <div class="field">
                                     <label>Name</label>
                                     <input name="command" class="input ng-pristine ng-valid ng-touched" type="text" ng-model="vm.name" placeholder="Name">
                                 </div>
                                 <div class="field">
-                                    <label>Kind</label>
-                                    <input type="text" name="kind" ng-model="vm.kind" placeholder="">
+                                    <label>PluginName</label>
+                                    <input type="text" name="pluginname" ng-model="vm.pluginname" placeholder="">
                                 </div>
                                 <div class="four field wide">
                                     <label>Status</label>
@@ -29,20 +29,12 @@
                                     </dropdown>
                                 </div>
                 </div>
-                <label>Description</label>
+                <label>Document</label>
                 <div class="field">
-                    <input type="text" name="description" ng-model="vm.description" placeholder="">
-                </div>
-                <label>Spec</label>
-                <div class="field">
-                    <input type="text" name="spec" ng-model="vm.spec" placeholder="">
-                </div>
-                <label>Manual</label>
-                <div class="field">
-                    <textarea type="text" name="manual" ng-model="vm.manual" placeholder=""></textarea>
+                    <textarea type="text" name="document" ng-model="vm.document" placeholder=""></textarea>
                 </div>
                 <div class="ui hidden divider"></div>
-                <div class="ui green submit button">Add Plugin</div>
+                <div class="ui green submit button">Add Strategy</div>
             </div>
         </div>
     </div>
