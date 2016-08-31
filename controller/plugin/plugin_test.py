@@ -53,17 +53,15 @@ class PluginTest(unittest.TestCase):
         response = session.get(URL + "/plugins?offset=0&limit=20")
 
         """
-        {
-            "Plugins":[
-                {
-                    "Name":"time-plugin",
-                    "Kind":"",
-                    "Status":"enable",
-                    "Description":"scaling container by time",
-                    "Spec":"a json string"
-                },
-            ]
-        }
+        [
+            {
+                "Name":"time-plugin",
+                "Kind":"",
+                "Status":"enable",
+                "Description":"scaling container by time",
+                "Spec":"a json string"
+            },
+        ]
         """
         self.printJson(response.text)
 
