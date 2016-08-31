@@ -2,11 +2,11 @@
     'use strict';
 
     angular
-        .module('shipyard.strategies')
+        .module('shipyard.plugins')
         .controller('strategiesController', StrategiesController);
 
-    StrategiesController.$inject = ['$scope', 'StrategyService', '$state'];
-    function StrategiesController($scope, StrategyService, $state) {
+    StrategiesController.$inject = ['$scope', 'StrategyService', '$state','$stateParams'];
+    function StrategiesController($scope, StrategyService, $state,$stateParams) {
         var vm = this;
         vm.error = "";
         vm.errors = [];
@@ -18,7 +18,7 @@
         vm.selectedPlugin = null;
         vm.selectedPluginId = "";
         vm.Name = "";
-        vm.PluginName = "";
+        vm.PluginName = $stateParams.id;
         vm.Status = "disable";
         vm.Document = "";
 
@@ -131,9 +131,9 @@
         }
 
         function refresh() {
-            StrategyService.list()
+            StrategyService.list(vm.PluginName)
                 .then(function(data) {
-                    vm.plugins = data['Strategies']; 
+                    vm.plugins = data; 
                     angular.forEach(vm.plugins, function (plugin) {
                         vm.selected[plugin.Id] = {Id: plugin.Name, Selected: vm.selectedAll};
                     });

@@ -1,18 +1,18 @@
 (function(){
     'use strict';
-
+    var url = "http://192.168.96.99:8081"
     angular
-        .module('shipyard.strategies')
+        .module('shipyard.plugins')
         .controller('StrategyAddController', StrategyAddController);
 
-    StrategyAddController.$inject = ['$http', '$state', '$base64'];
-    function StrategyAddController($http, $state) {
+    StrategyAddController.$inject = ['$http', '$state', '$base64','$stateParams'];
+    function StrategyAddController($http, $state,$stateParams) {
         var vm = this;
         vm.error = "";
         vm.request = {};
         vm.addStrategy = addStrategy;
         vm.name='';
-        vm.pluginname='';
+        vm.PluginName = $stateParams.id;
         vm.status='enable';
         vm.document='[{"Cron":"*/1 * * * * *","Apps":[{"App":"ats","Number":20},{"App":"hadoop:latest","Number":10},]}]';
         vm.request = null;
@@ -27,14 +27,14 @@
             }
             vm.request = {
                 Name: vm.name,
-                PluginName: vm.pluginname,
+                PluginName: vm.PluginName,
                 Status: vm.status,
                 Document: vm.document,
             }
             $http
-                .post('/strategies', vm.request)
+                .post(url+'/plugins/'+vm.PluginName+'/strategies', vm.request)
                 .success(function(data, status, headers, config) {
-                    $state.transitionTo('dashboard.strategies');
+                    $state.transitionTo(url+'/plugins/'+vm.PluginName+'/strategies');
                 })
                 .error(function(data, status, headers, config) {
                     vm.error = data;
