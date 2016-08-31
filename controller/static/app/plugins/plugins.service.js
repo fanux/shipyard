@@ -48,7 +48,7 @@
                 plugin.Spec = newSpec;
                 plugin.Manual = newManual;
                 var promise = $http
-                    .post(url + '/plugins/' + pluginId,plugin)
+                    .put(url + '/plugins/' + plugin.Name,plugin)
                     .then(function(response) {
                         return response.data;
                     });
