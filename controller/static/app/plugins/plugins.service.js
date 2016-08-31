@@ -1,6 +1,6 @@
 (function(){
     'use strict';
-
+    var url = 'http://192.168.96.99:8081'; 
     angular
         .module('shipyard.plugins')
         .factory('PluginService', PluginService)
@@ -8,7 +8,6 @@
         PluginService.$inject = ['$http'];
     function PluginService($http) {
         return {
-            var url = 'http://127.0.0.1:8081'; 
             list: function() {
                 var promise = $http
                     .get(url + '/plugins')

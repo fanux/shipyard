@@ -133,7 +133,8 @@
         function refresh() {
             PluginService.list()
                 .then(function(data) {
-                    vm.plugins = data['plugins']; 
+                    vm.plugins = data; 
+                    console.log(data);
                     angular.forEach(vm.plugins, function (plugin) {
                         vm.selected[plugin.Id] = {Id: plugin.Name, Selected: vm.selectedAll};
                     });
