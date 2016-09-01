@@ -310,8 +310,6 @@
 					minComponents = numComponents;
 				}
 			}
-
-		        console.log("end");	
 			return shortestName;			
 		}
     }
