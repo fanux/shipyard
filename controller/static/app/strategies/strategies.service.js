@@ -43,7 +43,6 @@
                 return promise;
             },
             edit: function(strategy) {
-                strategy.Status='disable';
                 var promise = $http
                     .put(url+'/plugins/'+strategy.PluginName+'/strategies/' + strategy.Name,strategy)
                     .then(function(response) {

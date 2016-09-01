@@ -195,7 +195,7 @@
         }
 
         function editPlugin(plugin) {
-            PluginService.edit(plugin,vm.Kind,vm.Description,vm.Spec,vm.Manual)
+            PluginService.edit(plugin)
                 .then(function(data) {
                     vm.refresh();
                 }, function(data) {

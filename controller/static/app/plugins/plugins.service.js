@@ -42,11 +42,7 @@
                     });
                 return promise;
             },
-            edit: function(plugin,newKind,newDescription,newSpec,newManual) {
-                plugin.Kind = newKind;
-                plugin.Description = newDescription;
-                plugin.Spec = newSpec;
-                plugin.Manual = newManual;
+            edit: function(plugin) {
                 var promise = $http
                     .put(url + '/plugins/' + plugin.Name,plugin)
                     .then(function(response) {

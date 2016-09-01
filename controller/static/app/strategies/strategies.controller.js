@@ -19,13 +19,13 @@
         vm.selectedPluginId = "";
         vm.Name = "";
         vm.PluginName = $stateParams.id;
-        vm.Status = "disable";
+        vm.Status = "";
         vm.Document = "";
 
         vm.showDeletePluginDialog = showDeletePluginDialog;
         vm.showEnablePluginDialog = showEnablePluginDialog;
         vm.showDisablePluginDialog = showDisablePluginDialog;
-        vm.showEditPluginDialog = showEditPluginDialog;
+        vm.showEditStrategyDialog = showEditStrategyDialog;
         vm.enablePlugin = enablePlugin;
         vm.disablePlugin = disablePlugin;
         vm.deletePlugin = deletePlugin;
@@ -168,7 +168,7 @@
         }
 
 
-        function showEditPluginDialog(plugin) {
+        function showEditStrategyDialog(plugin) {
             vm.selectedPlugin = plugin;
             $('#edit-modal').modal('show');
         }
