@@ -9,6 +9,7 @@
 	function PluginController(resolvedPlugin, PluginService, $state) {
         var vm = this;
         vm.plugin = resolvedPlugin;
+        vm.pluginStatusText=pluginStatusText;
 	}
     function pluginStatusText(plugin) {
         if(plugin.Status.indexOf("enable")==0){

@@ -1,7 +1,7 @@
 <div id="enable-modal" class="ui small modal transition">
     <i class="close icon"></i>
     <div class="header">
-        Enable Plugin: {{ vm.selectedPluginId | limitTo:12 }}
+        Enable Strategy: {{ vm.selectedPlugin.Name | limitTo:12 }}
     </div>
     <div class="content">
         <p>Are you sure you want to enable this plugin?</p>
@@ -20,7 +20,7 @@
 <div id="disable-modal" class="ui small modal transition">
     <i class="close icon"></i>
     <div class="header">
-        Enable Plugin: {{ vm.selectedPluginId | limitTo:12 }}
+        Enable Strategy: {{ vm.selectedPlugin.Name | limitTo:12 }}
     </div>
     <div class="content">
         <p>Are you sure you want to enable this plugin?</p>
@@ -40,7 +40,7 @@
 <div id="delete-modal" class="ui small modal transition">
     <i class="close icon"></i>
     <div class="header">
-        Delete Plugin: {{ vm.selectedPluginId | limitTo:12 }}
+        Delete Strategy: {{ vm.selectedPlugin.Name | limitTo:12 }}
     </div>
     <div class="content">
         <p>Are you sure you want to destroy this plugin?</p>
@@ -49,7 +49,7 @@
         <div class="ui negative button">
             No
         </div>
-        <div ng-click="vm.deletePlugin()" class="ui positive right labeled icon button">
+        <div ng-click="vm.deletePlugin(vm.selectedPlugin)" class="ui positive right labeled icon button">
             Yes
             <i class="checkmark icon"></i>
         </div>
@@ -60,18 +60,14 @@
 <div id="edit-modal" class="ui small modal transition">
     <i class="close icon"></i>
     <div class="header">
-        Edit Plugin: {{ vm.selectedPluginId | limitTo:12 }}
+        Edit Strategy: {{ vm.selectedPlugin.Name | limitTo:12 }}
     </div>
     <div class="content">
         <div class="ui form">
             <div class="fields">
                 <div class="twelve wide field">
-                    <label>Name</label>
-                    <input class="input" ng-model="vm.Name" type="text">
-                    <label>PluginName</label>
-                    <input class="input" ng-model="vm.PluginName" type="text">
                     <label>Document</label>
-                    <textarea class="input" ng-model="vm.Document" type="text"></textarea>
+                    <textarea class="input" ng-model="vm.selectedPlugin.Document" type="text"></textarea>
                 </div>
             </div>
         </div>
@@ -156,7 +152,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-class="{'active': vm.selected[c.Id].Selected}" ng-repeat="c in filteredPlugins = (vm.plugins | filter:tableFilter)" jquery>
+                    <tr ng-class="{'active': vm.selected[c.Id].Selected}" ng-repeat="c in filteredPlugins = (vm.plugins | filter:tableFilter) track by $index" jquery>
                         <td class="collapsing">
                             <div class="positive ui fitted checkbox">
                                 <input type="checkbox" id="{{$index}}-cb" ng-model="vm.selected[c.Id].Selected">
@@ -170,13 +166,9 @@
                         <td>{{c.Name}}</td> 
                         <td>{{c.PluginName}}</td>
                         <td class="collapsing">
-                            <div ui-sref="dashboard.sdetail({id: c.Name})" class="basic compact blue ui icon button">
+                            <div ui-sref="dashboard.sdetail({id: c.Name, pn:c.PluginName })" class="basic compact blue ui icon button">
                                 <i class="search icon"></i>
                             </div>
-                            <div ui-sref="dashboard.sdetail({id: c.Name})" class="basic compact blue ui icon button">
-                                <i class="bar chart icon"></i>
-                            </div>
-
                             <div class="ui right pointing dropdown">
                                 <div class="basic compact blue ui icon button">
                                     <i class="wrench icon"></i>

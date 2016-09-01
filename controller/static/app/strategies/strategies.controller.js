@@ -152,32 +152,30 @@
         }
 
         function showDeletePluginDialog(plugin) {
+            vm.selectedPlugin = plugin;
             vm.selectedPluginId = plugin.Name;
             $('#delete-modal').modal('show');
         }
 
         function showEnablePluginDialog(plugin) {
             vm.selectedPlugin = plugin;
-            vm.selectedPluginId = plugin.Name;
             $('#enable-modal').modal('show');
         }
 
         function showDisablePluginDialog(plugin) {
             vm.selectedPlugin = plugin;
-            vm.selectedPluginId = plugin.Name;
             $('#disable-modal').modal('show');
         }
 
 
         function showEditPluginDialog(plugin) {
             vm.selectedPlugin = plugin;
-            vm.selectedPluginId = plugin.Name;
             $('#edit-modal').modal('show');
         }
 
 
-        function enablePlugin(plugin) {
-            StrategyService.enable(vm.selectedPluginId,plugin)
+        function enablePlugin(strategy) {
+            StrategyService.enable(strategy)
                 .then(function(data) {
                     vm.refresh();
                 }, function(data) {
@@ -185,8 +183,8 @@
                 });
         }
 
-        function disablePlugin(plugin) {
-            StrategyService.disable(vm.selectedPluginId,plugin)
+        function disablePlugin(strategy) {
+            StrategyService.disable(strategy)
                 .then(function(data) {
                     vm.refresh();
                 }, function(data) {
@@ -194,20 +192,17 @@
                 });
         }
 
-        function editPlugin(plugin) {
-            StrategyService.edit(plugin,vm.Name,vm.PluginName,vm.Status,vm.Document)
+        function editPlugin(strategy) {
+            StrategyService.edit(strategy)
                 .then(function(data) {
                     vm.refresh();
                 }, function(data) {
                     vm.error = data;
                 });
-                vm.Name = "";
-                vm.PluginName = "";
-                vm.Document = "";
         }
 
-        function deletePlugin() {
-            StrategyService.delete(vm.selectedPluginId)
+        function deletePlugin(plugin) {
+            StrategyService.delete(plugin)
                 .then(function(data) {
                     vm.refresh();
                 }, function(data) {

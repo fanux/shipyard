@@ -45,21 +45,21 @@
                 authenticate: true
             })
             .state('dashboard.addStrategy', {
-                url: '^/plugins/{id}/strategies',
+                url: '^/plugins/{id}/strategies/add',
                 templateUrl: 'app/strategies/addStrategy.html',
                 controller: 'StrategyAddController',
                 controllerAs: 'vm',
-                authenticate: true
+                authenticate: true,
             })
             .state('dashboard.sdetail', {
-                url: '^/strategies/{id}',
+                url: '^/plugins/{pn}/strategies/{id}',
                 templateUrl: 'app/strategies/sdetail.html',
                 controller: 'StrategyController',
                 controllerAs: 'vm',
                 authenticate: true,
                 resolve: {
                     resolvedStrategy: ['StrategyService', '$state', '$stateParams', function(StrategyService, $state, $stateParams) {
-                        return StrategyService.inspect($stateParams.id).then(null, function(errorData) {
+                        return StrategyService.inspect($stateParams.pn,$stateParams.id).then(null, function(errorData) {
                             $state.go('error');
                         });
                     }]

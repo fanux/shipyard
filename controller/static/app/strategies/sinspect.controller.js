@@ -9,6 +9,7 @@
 	function StrategyController(resolvedStrategy, StrategyService, $state) {
         var vm = this;
         vm.strategy = resolvedStrategy;
+        vm.StrategyStatusText = StrategyStatusText;
 	}
     function StrategyStatusText(strategy) {
         if(strategy.Status.indexOf("enable")==0){

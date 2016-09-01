@@ -77,24 +77,14 @@
 <div class="ui padded grid">
     <div class="row">
         <div class="column">
-            <div class="ui segment page" ng-class="{'yellow': (vm.plugin.State.Running && vm.plugin.State.Paused), 'green': (vm.plugin.State.Running && !vm.plugin.State.Paused), 'red': !vm.plugin.State.Running}">
+            <div class="ui segment page" ng-class="vm.pluginStatusText(vm.plugin) == 'enable' ? 'green' :  'red'"">
                 <div class= "ui grid">
                     <div class="two column row">
                         <div class="column">
                             <h3 class="ui header">
                                 <div class="content">                                    
-                                    <i class="circle icon" ng-class="vm.pluginStatusText(vm.plugin) == 'enable' ? 'red' :  'green'"></i>
+                                    <i class="circle icon" ng-class="vm.pluginStatusText(vm.plugin) == 'enable' ? 'green' :  'red'"></i>
                                     {{ vm.plugin.Name }}
-                                    {{ vm.plugin }}
-                                    {{ vm.plugin.Status }}
-                                </div>
-                            </h3>
-                        </div>
-                        <div class="floated right aligned right column">
-                            <h3 class="ui header">
-                                <div class="content">
-                                    <div class="header" ng-show="vm.plugin.State">Started {{ vm.plugin.State | fromCalendar }}</div>
-                                    <div class="header" ng-hide="vm.plugin.State">Finished {{ vm.plugin.State | fromCalendar }}</div>
                                 </div>
                             </h3>
                         </div>

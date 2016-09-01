@@ -301,8 +301,7 @@
 			// Names with the same number of components are considered in undefined order
 			var shortestName = "";
 			var minComponents = 99;
-			
-			var names = container.Names
+			var names = container.Names;
 			for(var i=0; i<names.length; i++) {
 				var name = names[i];
 				var numComponents = name.split('/').length
@@ -312,6 +311,7 @@
 				}
 			}
 
+		        console.log("end");	
 			return shortestName;			
 		}
     }

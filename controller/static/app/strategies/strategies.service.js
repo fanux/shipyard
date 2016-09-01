@@ -16,47 +16,44 @@
                     });
                 return promise;
             },
-            enable: function(pluginId,plugin) {
-                plugin.Status='enable';
+            enable: function(strategy) {
+                strategy.Status='enable';
                 var promise = $http
-                    .post(url+'/plugins/'+plugin.PluginName+'/strategies/'+plugin.Name,plugin)
+                    .put(url+'/plugins/'+strategy.PluginName+'/strategies/' + strategy.Name,strategy)
                     .then(function(response) {
                         return response.data;
                     });
                 return promise;
             },
-            disable: function(pluginId,plugin) {
-                plugin.Status='disable';
+            disable: function(strategy) {
+                strategy.Status='disable';
                 var promise = $http
-                    .post(url+'/plugins/'+plugin.PluginName+'/strategies/'+plugin.Name,plugin)
+                    .put(url+'/plugins/'+strategy.PluginName+'/strategies/' + strategy.Name,strategy)
                     .then(function(response) {
                         return response.data;
                     });
                 return promise;
             },
-            delete: function(pluginId) {
+            delete: function(strategy) {
                 var promise = $http
-                    .delete('/json/plugins.json' + pluginId)
+                    .delete(url+'/plugins/'+strategy.PluginName+'/strategies/' + strategy.Name,strategy)
                     .then(function(response) {
                         return response.data;
                     });
                 return promise;
             },
-            edit: function(plugin,newName,newPluginName,newStatus,newDocument) {
-                plugin.Name = newName;
-                plugin.PluginName = newPluginName;
-                plugin.Status = newStatus;
-                plugin.Document = newDocument;
+            edit: function(strategy) {
+                strategy.Status='disable';
                 var promise = $http
-                    .post(url+'/plugins/'+plugin.PluginName+'/strategies',plugin)
+                    .put(url+'/plugins/'+strategy.PluginName+'/strategies/' + strategy.Name,strategy)
                     .then(function(response) {
                         return response.data;
                     });
                 return promise;
             },
-            inspect: function(pluginId) {
+            inspect: function(PluginName,strategy) {
                 var promise = $http
-                    .get(url+'/plugins/'+plugin.PluginName+'/strategies',plugin)
+                    .get(url+'/plugins/'+PluginName+'/strategies/'+strategy)
                     .then(function(response) {
                         return response.data;
                     });

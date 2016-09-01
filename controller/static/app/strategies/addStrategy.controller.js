@@ -6,7 +6,7 @@
         .controller('StrategyAddController', StrategyAddController);
 
     StrategyAddController.$inject = ['$http', '$state', '$base64','$stateParams'];
-    function StrategyAddController($http, $state,$stateParams) {
+    function StrategyAddController($http, $state,$base64,$stateParams) {
         var vm = this;
         vm.error = "";
         vm.request = {};
@@ -34,7 +34,7 @@
             $http
                 .post(url+'/plugins/'+vm.PluginName+'/strategies', vm.request)
                 .success(function(data, status, headers, config) {
-                    $state.transitionTo(url+'/plugins/'+vm.PluginName+'/strategies');
+                    $state.go('http://192.168.86.170:8888/#/plugins/'+vm.PluginName+'/strategies');
                 })
                 .error(function(data, status, headers, config) {
                     vm.error = data;
