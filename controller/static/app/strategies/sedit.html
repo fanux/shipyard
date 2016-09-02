@@ -1,14 +1,13 @@
-
 <div class="ui padded grid">
+
     <div class="row">
 
-        <div class="column">
+   <div class="column">
             <div class="ui segment page" ng-class="vm.StrategyStatusText(vm.strategy) == 'enable' ? 'green' :  'red'">
 
                 <div class= "ui grid">
-
-                    <div class="two column row">
-                        <div class="column">
+                                        <div class="three column row">
+                        <div class="one column">
                             <h3 class="ui header">
                                 <div class="content">                                    
                                     <i class="circle icon" ng-class="vm.StrategyStatusText(vm.strategy) == 'enable' ? 'green' :  'red'"></i>
@@ -16,19 +15,32 @@
                                 </div>
                             </h3>
                         </div>
+                                                <div class="one column">
+                    <div class="left floated column">
+                        <div ng-click="vm.refresh()" class="ui small green labeled icon button">
+                            <i class="edit icon"></i> Edit
+                        </div>
                     </div>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
     <div class="ui form">
         <div class="two fields">
             <div class="field">
                 <label>Document</label>
-                <textarea class="input ng-pristine ng-valid ng-touched " ng-model="vm.strategy.Document" type="text"></textarea>
+                <textarea  rows="100" ng-model="vm.strategy.Document" type="text"></textarea>
+
             </div>
             <div class="field">
                 <label>Preview</label>
-                <textarea  rows="10" ng-model="vm.jsonDocument(vm.strategy.Document)" ></textarea>
+                <pre class="logs" style="background: #081021;
+    color: #63cf39;overflow: auto;
+    height: 500px;"><code>{{ vm.jsonDocument(vm.strategy.Document) }}</code></pre>
             </div>           
         </div>
+
     </div>
 </div>
         </div>
