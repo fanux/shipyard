@@ -68,11 +68,15 @@
                 <div class="field">
                     <label>Document</label>
                     <textarea class="input" ng-model="vm.selectedPlugin.Document" type="text"></textarea>
-
                 </div>
-                <div class="field annotation transition visible"><label>Preview</label><div class="ui instructive bottom attached segment"><pre><code class="code xml">{{ vm.jsonDocument(vm.selectedPlugin.Document) }}</code></pre></div></div>
+                <div class="field">
+                    <label>Preview</label>
+                    <textarea class="input" ng-model="vm.jsonDocument(vm.selectedPlugin.Document)" type="text"></textarea>
+                </div>
+                
                            
-                </div>
+            </div>
+
         </div>
     </div>
     <div class="actions">
