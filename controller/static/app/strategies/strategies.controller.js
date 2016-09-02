@@ -163,23 +163,23 @@
         function showDeletePluginDialog(plugin) {
             vm.selectedPlugin = plugin;
             vm.selectedPluginId = plugin.Name;
-            $('#delete-modal').modal('show');
+            $('#sdelete-modal').modal('show');
         }
 
         function showEnablePluginDialog(plugin) {
             vm.selectedPlugin = plugin;
-            $('#enable-modal').modal('show');
+            $('#senable-modal').modal('show');
         }
 
         function showDisablePluginDialog(plugin) {
             vm.selectedPlugin = plugin;
-            $('#disable-modal').modal('show');
+            $('#sdisable-modal').modal('show');
         }
 
 
         function showEditStrategyDialog(plugin) {
             vm.selectedPlugin = plugin;
-            $('#edit-modal').modal('show');
+            $('#sedit-modal').modal('show');
         }
 
 

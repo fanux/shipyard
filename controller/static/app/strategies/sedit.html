@@ -1,0 +1,36 @@
+
+<div class="ui padded grid">
+    <div class="row">
+
+        <div class="column">
+            <div class="ui segment page" ng-class="vm.StrategyStatusText(vm.strategy) == 'enable' ? 'green' :  'red'">
+
+                <div class= "ui grid">
+
+                    <div class="two column row">
+                        <div class="column">
+                            <h3 class="ui header">
+                                <div class="content">                                    
+                                    <i class="circle icon" ng-class="vm.StrategyStatusText(vm.strategy) == 'enable' ? 'green' :  'red'"></i>
+                                    {{ vm.strategy.Name }}
+                                </div>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+    <div class="ui form">
+        <div class="two fields">
+            <div class="field">
+                <label>Document</label>
+                <textarea class="input ng-pristine ng-valid ng-touched " ng-model="vm.strategy.Document" type="text"></textarea>
+            </div>
+            <div class="field">
+                <label>Preview</label>
+                <textarea  rows="10" ng-model="vm.jsonDocument(vm.strategy.Document)" ></textarea>
+            </div>           
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</div>

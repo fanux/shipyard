@@ -64,6 +64,20 @@
                         });
                     }]
                 }
+            })
+            .state('dashboard.sedit', {
+                url: '^/plugins/{pn}/strategies/{id}/edit',
+                templateUrl: 'app/strategies/sedit.html',
+                controller: 'StrategyController',
+                controllerAs: 'vm',
+                authenticate: true,
+                resolve: {
+                    resolvedStrategy: ['StrategyService', '$state', '$stateParams', function(StrategyService, $state, $stateParams) {
+                        return StrategyService.inspect($stateParams.pn,$stateParams.id).then(null, function(errorData) {
+                            $state.go('error');
+                        });
+                    }]
+                }
             });
     }
 })();
