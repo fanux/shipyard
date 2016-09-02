@@ -57,19 +57,22 @@
 </div>
 
 
-<div id="edit-modal" class="ui small modal transition">
+<div id="edit-modal" class="ui  modal transition">
     <i class="close icon"></i>
     <div class="header">
         Edit Strategy: {{ vm.selectedPlugin.Name | limitTo:12 }}
     </div>
     <div class="content">
         <div class="ui form">
-            <div class="fields">
-                <div class="twelve wide field">
+            <div class="two fields">
+                <div class="field">
                     <label>Document</label>
                     <textarea class="input" ng-model="vm.selectedPlugin.Document" type="text"></textarea>
+
                 </div>
-            </div>
+                <div class="field annotation transition visible"><label>Preview</label><div class="ui instructive bottom attached segment"><pre><code class="code xml">{{ vm.jsonDocument(vm.selectedPlugin.Document) }}</code></pre></div></div>
+                           
+                </div>
         </div>
     </div>
     <div class="actions">

@@ -21,7 +21,8 @@
         vm.PluginName = $stateParams.id;
         vm.Status = "";
         vm.Document = "";
-
+        vm.jsonDocument=jsonDocument;
+        
         vm.showDeletePluginDialog = showDeletePluginDialog;
         vm.showEnablePluginDialog = showEnablePluginDialog;
         vm.showDisablePluginDialog = showDisablePluginDialog;
@@ -75,7 +76,15 @@
             });
             return;
         });*/
-
+        function jsonDocument(obj){
+            try {
+             var res= new Function("return " + obj + ";")();
+            } catch (e) {
+              var res={"error": "类型异常,请修改!!!"};
+            } 
+            var out = JSON.stringify(res, null, 4);
+            return out;
+        }
         function clearAll() {
             angular.forEach(vm.selected, function (s) {
                 vm.selected[s.Id].Selected = false;

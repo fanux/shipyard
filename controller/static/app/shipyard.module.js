@@ -14,6 +14,7 @@
                 'shipyard.registry',
                 'shipyard.nodes',
                 'shipyard.plugins',
+                'ngPrettyJson',
                 'shipyard.images',
                 'shipyard.filters',
                 'angular-jwt',
