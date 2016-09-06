@@ -34,7 +34,8 @@
             $http
                 .post(url+'/plugins/'+vm.PluginName+'/strategies', vm.request)
                 .success(function(data, status, headers, config) {
-                    $state.go('http://192.168.86.170:8888/#/plugins/'+vm.PluginName+'/strategies');
+                    $state.transitionTo('dashboard.strategies',{id: vm.PluginName});
+                    //$state.go('http://192.168.86.170:8888/#/plugins/'+vm.PluginName+'/strategies');
                 })
                 .error(function(data, status, headers, config) {
                     vm.error = data;
