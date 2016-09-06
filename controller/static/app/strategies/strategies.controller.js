@@ -19,13 +19,14 @@
         vm.selectedPluginId = "";
         vm.Name = "";
         vm.PluginName = $stateParams.id;
-        vm.Status = "disable";
+        vm.Status = "";
         vm.Document = "";
-
+        vm.jsonDocument=jsonDocument;
+        
         vm.showDeletePluginDialog = showDeletePluginDialog;
         vm.showEnablePluginDialog = showEnablePluginDialog;
         vm.showDisablePluginDialog = showDisablePluginDialog;
-        vm.showEditPluginDialog = showEditPluginDialog;
+        vm.showEditStrategyDialog = showEditStrategyDialog;
         vm.enablePlugin = enablePlugin;
         vm.disablePlugin = disablePlugin;
         vm.deletePlugin = deletePlugin;
@@ -75,7 +76,15 @@
             });
             return;
         });*/
-
+        function jsonDocument(obj){
+            try {
+             var res= new Function("return " + obj + ";")();
+            } catch (e) {
+              var res={"error": "类型异常,请修改!!!"};
+            } 
+            var out = JSON.stringify(res, null, 4);
+            return out;
+        }
         function clearAll() {
             angular.forEach(vm.selected, function (s) {
                 vm.selected[s.Id].Selected = false;
@@ -154,23 +163,23 @@
         function showDeletePluginDialog(plugin) {
             vm.selectedPlugin = plugin;
             vm.selectedPluginId = plugin.Name;
-            $('#delete-modal').modal('show');
+            $('#sdelete-modal').modal('show');
         }
 
         function showEnablePluginDialog(plugin) {
             vm.selectedPlugin = plugin;
-            $('#enable-modal').modal('show');
+            $('#senable-modal').modal('show');
         }
 
         function showDisablePluginDialog(plugin) {
             vm.selectedPlugin = plugin;
-            $('#disable-modal').modal('show');
+            $('#sdisable-modal').modal('show');
         }
 
 
-        function showEditPluginDialog(plugin) {
+        function showEditStrategyDialog(plugin) {
             vm.selectedPlugin = plugin;
-            $('#edit-modal').modal('show');
+            $('#sedit-modal').modal('show');
         }
 
 

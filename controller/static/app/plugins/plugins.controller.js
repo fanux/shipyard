@@ -60,25 +60,25 @@
         });
 
         // Remove selected items that are no longer visible 
-/*        $scope.$watchCollection('filteredPlugins', function () {
+        $scope.$watchCollection('filteredPlugins', function () {
             angular.forEach(vm.selected, function(s) {
-                if(vm.selected[s.Id].Selected == true) {
+                if(vm.selected[s.Name].Selected == true) {
                     var isVisible = false
                     angular.forEach($scope.filteredPlugins, function(c) {
-                        if(c.Id == s.Id) {
+                        if(c.Name == s.Name) {
                             isVisible = true;
                             return;
                         }
                     });
-                    vm.selected[s.Id].Selected = isVisible;
+                    vm.selected[s.Name].Selected = isVisible;
                 }
             });
             return;
-        });*/
+        });
 
         function clearAll() {
             angular.forEach(vm.selected, function (s) {
-                vm.selected[s.Id].Selected = false;
+                vm.selected[s.Name].Selected = false;
             });
         }
 
@@ -126,7 +126,8 @@
 
         function checkAll() {
             angular.forEach($scope.filteredPlugins, function (plugin) {
-                vm.selected[plugin.Id].Selected = vm.selectedAll;
+                vm.selected[plugin.Name].Selected = vm.selectedAll;
+                console.log(vm.selectedAll);
             });
         }
 
@@ -135,7 +136,7 @@
                 .then(function(data) {
                     vm.plugins = data; 
                     angular.forEach(vm.plugins, function (plugin) {
-                        vm.selected[plugin.Id] = {Id: plugin.Name, Selected: vm.selectedAll};
+                        vm.selected[plugin.Name] = {Name: plugin.Name, Selected: vm.selectedAll};
                     });
                 }, function(data) {
                     vm.error = data;
@@ -195,7 +196,7 @@
         }
 
         function editPlugin(plugin) {
-            PluginService.edit(plugin,vm.Kind,vm.Description,vm.Spec,vm.Manual)
+            PluginService.edit(plugin)
                 .then(function(data) {
                     vm.refresh();
                 }, function(data) {

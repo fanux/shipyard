@@ -1,4 +1,4 @@
-<div id="enable-modal" class="ui small modal transition">
+<div id="senable-modal" class="ui small modal transition">
     <i class="close icon"></i>
     <div class="header">
         Enable Strategy: {{ vm.selectedPlugin.Name | limitTo:12 }}
@@ -17,10 +17,10 @@
     </div>
 </div>
 
-<div id="disable-modal" class="ui small modal transition">
+<div id="sdisable-modal" class="ui small modal transition">
     <i class="close icon"></i>
     <div class="header">
-        Enable Strategy: {{ vm.selectedPlugin.Name | limitTo:12 }}
+        Disable Strategy: {{ vm.selectedPlugin.Name | limitTo:12 }}
     </div>
     <div class="content">
         <p>Are you sure you want to enable this plugin?</p>
@@ -37,7 +37,7 @@
 </div>
 
 
-<div id="delete-modal" class="ui small modal transition">
+<div id="sdelete-modal" class="ui small modal transition">
     <i class="close icon"></i>
     <div class="header">
         Delete Strategy: {{ vm.selectedPlugin.Name | limitTo:12 }}
@@ -57,19 +57,24 @@
 </div>
 
 
-<div id="edit-modal" class="ui small modal transition">
+<div id="sedit-modal" class="ui  modal transition">
     <i class="close icon"></i>
     <div class="header">
         Edit Strategy: {{ vm.selectedPlugin.Name | limitTo:12 }}
     </div>
     <div class="content">
         <div class="ui form">
-            <div class="fields">
-                <div class="twelve wide field">
+            <div class="two fields">
+                <div class="field">
                     <label>Document</label>
                     <textarea class="input" ng-model="vm.selectedPlugin.Document" type="text"></textarea>
                 </div>
+                <div class="field">
+                    <label>Preview</label>
+                    <textarea class="input" ng-model="vm.jsonDocument(vm.selectedPlugin.Document)" type="text"></textarea>
+                </div>           
             </div>
+
         </div>
     </div>
     <div class="actions">
@@ -169,6 +174,9 @@
                             <div ui-sref="dashboard.sdetail({id: c.Name, pn:c.PluginName })" class="basic compact blue ui icon button">
                                 <i class="search icon"></i>
                             </div>
+                            <div ui-sref="dashboard.sedit({id: c.Name, pn:c.PluginName })" class="basic compact blue ui icon button">
+                                <i class="edit icon"></i>
+                            </div>
                             <div class="ui right pointing dropdown">
                                 <div class="basic compact blue ui icon button">
                                     <i class="wrench icon"></i>
@@ -177,7 +185,7 @@
                                     <a ng-click="vm.showEnablePluginDialog(c)" class="item"><i class="green circle icon"></i> Enable</a>
                                     <a ng-click="vm.showDisablePluginDialog(c)" class="item"><i class="red stop icon"></i> Disable</a>
                                     <a ng-click="vm.showDeletePluginDialog(c)" class="item"><i class="red remove icon"></i> Delete</a>
-                                    <a ng-click="vm.showEditPluginDialog(c)" class="item"><i class="blue edit icon"></i> Edit</a>
+                                    <a ng-click="vm.showEditStrategyDialog(c)" class="item"><i class="blue edit icon"></i> Edit</a>
                                 </div>
                             </div>
                         </td>

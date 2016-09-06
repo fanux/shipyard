@@ -158,10 +158,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-class="{'active': vm.selected[c.Id].Selected}" ng-repeat="c in filteredPlugins = (vm.plugins | filter:tableFilter)" jquery>
+                    <tr ng-class="{'active': vm.selected[c.Name].Selected}" ng-repeat="c in filteredPlugins = (vm.plugins | filter:tableFilter)" jquery>
                         <td class="collapsing">
                             <div class="positive ui fitted checkbox">
-                                <input type="checkbox" id="{{$index}}-cb" ng-model="vm.selected[c.Id].Selected">
+                                <input type="checkbox" id="{{$index}}-cb" ng-model="vm.selected[c.Name].Selected">
                                 <label for="{{$index}}-cb"></label>
                             </div>
                         </td>
