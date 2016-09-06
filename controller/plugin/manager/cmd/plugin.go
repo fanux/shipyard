@@ -1,11 +1,13 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/emicklei/go-restful"
 	"github.com/jinzhu/gorm"
+	"github.com/nats-io/nats"
 )
 
 type PluginError struct {
@@ -32,11 +34,34 @@ type Strategy struct {
 
 type PluginResource struct {
 	db *gorm.DB
+	mq *nats.EncodedConn
 }
 
 type ScaleApp struct {
 	App    string
 	Number int
+}
+
+const (
+	COMMAND_START_PLUGIN     = "start-plugin"
+	COMMAND_STOP_PLUGIN      = "stop-plugin"
+	COMMAND_ENABLE_STRATEGY  = "enable-strategy"
+	COMMAND_DISABLE_STRATEGY = "disable-strategy"
+	COMMAND_UPDATE_DOCUMENT  = "update-document"
+)
+
+const (
+	PLUGIN_ENABLE  = "enable"
+	PLUGIN_DISABLE = "disable"
+
+	STRATEGY_ENABLE  = "enable"
+	STRATEGY_DISABLE = "disable"
+)
+
+type Command struct {
+	Command string
+	Channel string // each plugin subscribe it plugin name, plugin name is channel
+	Body    string
 }
 
 func (p PluginResource) Register(container *restful.Container) {
@@ -180,19 +205,26 @@ func (this PluginResource) updatePlugin(request *restful.Request, response *rest
 	this.db.Where("name = ?", pluginName).First(&tmp)
 
 	if plugin.Status != tmp.Status {
-		this.db.Model(&tmp).Update("status", plugin.Status)
+		this.db.Model(&tmp).Where("name = ?", pluginName).Update("status", plugin.Status)
+
+		// send command to plugin
+		if plugin.Status == PLUGIN_ENABLE {
+			this.mq.Publish(pluginName, Command{COMMAND_START_PLUGIN, pluginName, ""})
+		} else if plugin.Status == PLUGIN_DISABLE {
+			this.mq.Publish(pluginName, Command{COMMAND_STOP_PLUGIN, pluginName, ""})
+		}
 	}
 	if plugin.Kind != tmp.Kind {
-		this.db.Model(&tmp).Update("kind", plugin.Kind)
+		this.db.Model(&tmp).Where("name = ?", pluginName).Update("kind", plugin.Kind)
 	}
 	if plugin.Description != tmp.Description {
-		this.db.Model(&tmp).Update("description", plugin.Description)
+		this.db.Model(&tmp).Where("name = ?", pluginName).Update("description", plugin.Description)
 	}
 	if plugin.Spec != tmp.Spec {
-		this.db.Model(&tmp).Update("spec", plugin.Spec)
+		this.db.Model(&tmp).Where("name = ?", pluginName).Update("spec", plugin.Spec)
 	}
 	if plugin.Manual != tmp.Manual {
-		this.db.Model(&tmp).Update("manual", plugin.Manual)
+		this.db.Model(&tmp).Where("name = ?", pluginName).Update("manual", plugin.Manual)
 	}
 
 	if err != nil {
@@ -207,6 +239,9 @@ func (this PluginResource) deletePlugin(request *restful.Request, response *rest
 	pluginName := request.PathParameter("pluginName")
 
 	this.db.Where("name = ?", pluginName).Delete(Plugin{})
+
+	// stop plugin
+	this.mq.Publish(pluginName, Command{COMMAND_STOP_PLUGIN, pluginName, ""})
 
 	response.WriteHeaderAndEntity(http.StatusOK, PluginError{"0", "delete ok"})
 }
@@ -241,9 +276,10 @@ func (this PluginResource) createPluginStrategies(request *restful.Request,
 func (this PluginResource) listPluginStragies(request *restful.Request,
 	response *restful.Response) {
 
+	pluginName := request.PathParameter("pluginName")
 	strategies := []Strategy{}
 
-	this.db.Find(&strategies)
+	this.db.Where("plugin_name = ?", pluginName).Find(&strategies)
 
 	response.WriteEntity(strategies)
 }
@@ -267,6 +303,8 @@ func (this PluginResource) updatePluginStrategy(request *restful.Request,
 	response *restful.Response) {
 
 	strategyName := request.PathParameter("strategyName")
+	pluginName := request.PathParameter("pluginName")
+
 	strategy := Strategy{}
 	tmp := Strategy{}
 	err := request.ReadEntity(&strategy)
@@ -275,10 +313,19 @@ func (this PluginResource) updatePluginStrategy(request *restful.Request,
 	this.db.Where("name = ?", strategyName).First(&tmp)
 
 	if strategy.Status != tmp.Status {
-		this.db.Model(&tmp).Update("status", strategy.Status)
+		this.db.Model(&tmp).Where("name = ?", strategyName).Update("status", strategy.Status)
+
+		fmt.Println("change strategy status: ", strategy.Status, " plugin Name: ", pluginName)
+		// send command to plugin
+		if strategy.Status == STRATEGY_ENABLE {
+			this.mq.Publish(pluginName, Command{COMMAND_ENABLE_STRATEGY, pluginName, strategyName})
+		} else if strategy.Status == STRATEGY_DISABLE {
+			this.mq.Publish(pluginName, Command{COMMAND_DISABLE_STRATEGY, pluginName, strategyName})
+		}
 	}
 	if strategy.Document != tmp.Document {
-		this.db.Model(&tmp).Update("document", strategy.Document)
+		this.db.Model(&tmp).Where("name = ?", strategyName).Update("document", strategy.Document)
+		this.mq.Publish(pluginName, Command{COMMAND_UPDATE_DOCUMENT, pluginName, strategyName})
 	}
 
 	if err != nil {
@@ -293,8 +340,11 @@ func (this PluginResource) deletePluginStrategy(request *restful.Request,
 	response *restful.Response) {
 
 	strategyName := request.PathParameter("strategyName")
+	pluginName := request.PathParameter("pluginName")
 
 	this.db.Where("name = ?", strategyName).Delete(Strategy{})
+
+	this.mq.Publish(pluginName, Command{COMMAND_DISABLE_STRATEGY, pluginName, strategyName})
 
 	response.WriteHeaderAndEntity(http.StatusOK, PluginError{"0", "delete ok"})
 }
@@ -336,7 +386,10 @@ func runServer(host string, port string) {
 	wsContainer.Filter(cors.Filter)
 	wsContainer.Filter(wsContainer.OPTIONSFilter)
 
-	p := PluginResource{db}
+	nc, _ := nats.Connect(nats.DefaultURL)
+	c, _ := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
+
+	p := PluginResource{db, c}
 	p.Register(wsContainer)
 
 	log.Printf("start listening on %s%s", host, port)

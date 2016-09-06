@@ -29,6 +29,7 @@ func (this Job) Run() {
 	log.Printf("job info: Cron: [%s]", this.Rule.Cron)
 	fmt.Println("time: ", time.Now().Format("2016-01-02 03:04:05 PM"))
 
+	// add if strategy is enable
 	this.Client.ScaleApps(this.Rule.Apps)
 }
 

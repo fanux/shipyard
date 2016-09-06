@@ -86,11 +86,11 @@ class PluginTest(unittest.TestCase):
         headers = {"content-type":"application/json"}
         data =  {
             "Name":"q-pipeline",
-            "Kind":"newKind",
-            "Status":"new disable",
-            "Description":"new scaling container by time",
-            "Spec":"new a json string",
-            "Manual":"new manal new"
+            "Kind":"new newKind",
+            "Status":"new new disable",
+            "Description":"new new scaling container by time",
+            "Spec":"new new a json string",
+            "Manual":"new new manal new"
         }
         response = session.put(URL + "/plugins/" + plugin_name, headers=headers, data=json.dumps(data))
 
@@ -262,11 +262,11 @@ class PluginTest(unittest.TestCase):
 
     def test_updatePluginStrategy(self):
         plugin_name = "time-plugin"
-        strategy_name = "scale-by-hour"
+        strategy_name = "v"
 
         data = {
             "PluginName":"time-plugin",
-            "Name":"scale-by-hour",
+            "Name":"v",
             "Status":"new enale",
             "Document":"new document",
         }
