@@ -31,6 +31,24 @@ class PluginTest(unittest.TestCase):
 
         self.printJson(response.text)
 
+    def test_createDecider(self):
+        headers = {"content-type":"application/json"}
+        data = {
+            "Name":"plugin_decider",
+            "Kind":"",
+            "Status":"enable",
+            "Description":"scaling container by time",
+            "Spec":"""{"key":"value"}""",
+            "Manual":"a markdown plugin document write manaul, how to config rules"
+        }
+
+        response = session.post(URL + "/plugins", headers=headers, data=json.dumps(data))
+
+
+        # {"plugin":"time-plugin", "error":0}
+        # print response.text
+        self.printJson(response.text)
+
     def test_createPlugin(self):
         headers = {"content-type":"application/json"}
         data = {
@@ -178,6 +196,111 @@ class PluginTest(unittest.TestCase):
 
         """
         self.printJson(response.text)
+
+    def test_createDeciderStrategy(self):
+        plugin_name = "plugin_decider"
+
+        self.document = [
+    {
+        "App":"ats",
+        "Image":"ats:latest",
+        "Priority":1,
+        "MinNum":3,
+        "Spec":[
+            {
+                "Metrical":[0, 20],
+                "Number":-10,
+            },
+            {
+                "Metrical":[20, 40],
+                "Number":-5,
+            },
+            {
+                "Metrical":[40, 60],
+                "Number":0,
+            },
+            {
+                "Metrical":[60, 80],
+                "Number":5,
+            },
+            {
+                "Metrical":[80, 100],
+                "Number":10,
+            }
+        ]
+    },
+    {
+        "App":"hadoop",
+        "Image":"hadoop:latest",
+        "Priority":2,
+        "MinNum":2,
+        "Spec":[
+            {
+                "Metrical":[0, 20],
+                "Number":-10,
+            },
+            {
+                "Metrical":[20, 40],
+                "Number":-5,
+            },
+            {
+                "Metrical":[40, 60],
+                "Number":0,
+            },
+            {
+                "Metrical":[60, 80],
+                "Number":5,
+            },
+            {
+                "Metrical":[80, 100],
+                "Number":10,
+            }
+        ]
+    },
+    {
+        "App":"redis",
+        "Image":"redis:v1.0",
+        "Priority":3,
+        "MinNum":1,
+        "Spec":[
+            {
+                "Metrical":[0, 20],
+                "Number":-10,
+            },
+            {
+                "Metrical":[20, 40],
+                "Number":-5,
+            },
+            {
+                "Metrical":[40, 60],
+                "Number":0,
+            },
+            {
+                "Metrical":[60, 80],
+                "Number":5,
+            },
+            {
+                "Metrical":[80, 100],
+                "Number":10,
+            }
+        ]
+    },
+]
+        plugin_strategy = {
+            "PluginName":"plugin_decider",
+            "Name":"ats-decider",
+            "Status":"enable",
+            #对controller来说就是一个字符串，不关心其内容
+            "Document":json.dumps(self.document) 
+        }
+
+        headers = {"content-type":"application/json"}
+        response = session.post("%s/plugins/%s/strategies" % (URL, plugin_name), 
+                headers=headers,
+                data=json.dumps(plugin_strategy))
+
+        self.printJson(response.text)
+
 
     def test_createPluginStrategy(self):
         """
