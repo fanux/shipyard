@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"cloudflare/cfssl/log"
 	"fmt"
 	"strings"
 
@@ -86,7 +85,6 @@ func scaleContainer(id string, numInstances int, client *dockerclient.DockerClie
 
 	for i := 0; i < numInstances; i++ {
 		go func(instance int) {
-			log.Debugf("scaling: id=%s #=%d", containerInfo.Id, instance)
 			config := containerInfo.Config
 			// clear hostname to get a newly generated
 			config.Hostname = ""
@@ -112,7 +110,6 @@ func scaleContainer(id string, numInstances int, client *dockerclient.DockerClie
 		case id := <-resChan:
 			result.Scaled = append(result.Scaled, id)
 		case err := <-errChan:
-			log.Errorf("error scaling container: err=%s", strings.TrimSpace(err.Error()))
 			result.Errors = append(result.Errors, strings.TrimSpace(err.Error()))
 		}
 	}
