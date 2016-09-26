@@ -244,6 +244,9 @@ func (m DefaultManager) ScaleContainer(id string, numInstances int) ScaleResult 
 		return result
 	}
 
+	fmt.Println("scale container without threads!!!!!")
+	fmt.Println("scale container with sleep")
+
 	for i := 0; i < numInstances; i++ {
 		go func(instance int) {
 			log.Debugf("scaling: id=%s #=%d", containerInfo.Id, instance)
@@ -263,6 +266,8 @@ func (m DefaultManager) ScaleContainer(id string, numInstances int) ScaleResult 
 			}
 			resChan <- id
 		}(i)
+
+		time.Sleep(time.Second * 10)
 	}
 
 	for i := 0; i < numInstances; i++ {
