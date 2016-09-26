@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	log "github.com/Sirupsen/logrus"
@@ -238,6 +239,8 @@ func (m DefaultManager) ScaleContainer(id string, numInstances int) ScaleResult 
 		result  = ScaleResult{Scaled: make([]string, 0), Errors: make([]string, 0)}
 	)
 
+	var lock sync.Mutex
+
 	containerInfo, err := m.Container(id)
 	if err != nil {
 		result.Errors = append(result.Errors, err.Error())
@@ -245,7 +248,8 @@ func (m DefaultManager) ScaleContainer(id string, numInstances int) ScaleResult 
 	}
 
 	fmt.Println("scale container without threads!!!!!")
-	fmt.Println("scale container with sleep")
+	//fmt.Println("scale container with sleep")
+	fmt.Println("try to add mutex")
 
 	for i := 0; i < numInstances; i++ {
 		go func(instance int) {
@@ -255,6 +259,8 @@ func (m DefaultManager) ScaleContainer(id string, numInstances int) ScaleResult 
 			config.Hostname = ""
 			hostConfig := containerInfo.HostConfig
 			config.HostConfig = *hostConfig // sending hostconfig via the Start-endpoint is deprecated starting with docker-engine 1.12
+
+			lock.Lock()
 			id, err := m.client.CreateContainer(config, "", nil)
 			if err != nil {
 				errChan <- err
@@ -264,10 +270,11 @@ func (m DefaultManager) ScaleContainer(id string, numInstances int) ScaleResult 
 				errChan <- err
 				return
 			}
+			lock.Unlock()
 			resChan <- id
 		}(i)
 
-		time.Sleep(time.Second * 10)
+		//time.Sleep(time.Second * 10)
 	}
 
 	for i := 0; i < numInstances; i++ {
