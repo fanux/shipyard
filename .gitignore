@@ -2,4 +2,3 @@
 *.un*
 cli/cli
 bower_components
-controller/controller
