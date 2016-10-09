@@ -8,7 +8,7 @@
                 function ($rootScope, $state, $stateParams, $window, AuthService) {
                     $rootScope.$state = $state;
                     $rootScope.$stateParams = $stateParams;
-                    $rootScope.url = "http://localhost:8081"
+                    $rootScope.url = "http://192.168.86.106:8081"
 
                     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
                         $rootScope.username = AuthService.getUsername();
