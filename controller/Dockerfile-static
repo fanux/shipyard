@@ -1,0 +1,4 @@
+FROM dface:latest
+
+RUN rm -r /go/static
+COPY static /go/static/

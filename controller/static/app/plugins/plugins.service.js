@@ -1,12 +1,13 @@
 (function(){
     'use strict';
-    var url = 'http://192.168.96.99:8081'; 
+    var url = 'http://localhost:8081'; 
     angular
         .module('shipyard.plugins')
         .factory('PluginService', PluginService)
 
-        PluginService.$inject = ['$http'];
-    function PluginService($http) {
+        PluginService.$inject = ['$http', '$rootScope'];
+    function PluginService($http, $rootScope) {
+        url = $rootScope.url
         return {
             list: function() {
                 var promise = $http

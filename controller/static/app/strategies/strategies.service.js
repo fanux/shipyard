@@ -5,8 +5,9 @@
         .module('shipyard.plugins')
         .factory('StrategyService', StrategyService)
 
-        StrategyService.$inject = ['$http'];
-    function StrategyService($http) {
+        StrategyService.$inject = ['$http', '$rootScope'];
+    function StrategyService($http, $rootScope) {
+        url = $rootScope.url
         return {
             list: function(pluginId) {
                 var promise = $http

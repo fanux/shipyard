@@ -5,8 +5,9 @@
         .module('shipyard.plugins')
         .controller('StrategyAddController', StrategyAddController);
 
-    StrategyAddController.$inject = ['$http', '$state', '$base64','$stateParams'];
-    function StrategyAddController($http, $state,$base64,$stateParams) {
+    StrategyAddController.$inject = ['$http', '$state', '$base64','$stateParams', '$rootScope'];
+    function StrategyAddController($http, $state,$base64,$stateParams, $rootScope) {
+        url = $rootScope.url
         var vm = this;
         vm.error = "";
         vm.request = {};
